@@ -4,8 +4,8 @@
         <tr>
             <th width='10%'>#</th>
             <th>الاسم </th>
-            <th width='10%'>فعال</th>
-            <th width='30%'>الخيارات </th>
+            <th width='10%'>Active</th>
+            <th width='30%'>Options </th>
         </tr>
         </thead>
         <tbody>
