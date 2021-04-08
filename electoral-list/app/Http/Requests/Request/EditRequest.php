@@ -13,7 +13,7 @@ class EditRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,8 @@ class EditRequest extends FormRequest
     {
         $id = $this->route('user');
         return [
-            'name'=>'required|max:30|unique:users,name,'.$id
+            'name'=>'required |max:255',
+            'email'=>'required|max:30|unique:users,email,'.$id
         ];
     }
 }

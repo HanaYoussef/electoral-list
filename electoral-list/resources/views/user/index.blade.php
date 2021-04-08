@@ -1,11 +1,30 @@
 @extends('layouts.base')
 @section('title','View Users')
 @section('content')
-    <table class="table table-success table-striped">
+
+<form class='row dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1' >
+
+    <div class='col-sm-3'>
+        <input class='form-control' autofocus value='{{request()->q??''}}' name='q' type='text' placeholder='Enter your search' />
+    </div>
+    
+    <div class='col-sm-1'>
+        <input type='submit' Value='Search' class='btn btn-primary' />
+    </div>
+    <div class='col-sm-3'>
+        <a class='btn btn-primary' href='{{route("user.create")}}'><span>Add New User</span></a>
+    </div>
+</form>
+
+<br>
+
+
+<table  class="user-list-table table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+
             <thead>
             <tr>
                 <th width='10%'>#</th>
-                <th>الاسم </th>
+                <th>Nmae </th>
                 <th width='10%'>Active</th>
                 <th width='30%'>Options </th>
             </tr>
@@ -20,10 +39,10 @@
                         <form method='post' action="{{route('user.destroy',$item->id)}}">
                             @csrf
                             @method('delete')
-                            <a href='{{route("user.show",$item->id)}}' class='btn btn-info'>عرض</a>
-                            <a href='{{route("user.edit",$item->id)}}' class='btn btn-primary'>تعديل</a>
+                            <a href='{{route("user.show",$item->id)}}' class='btn btn-info'>show</a>
+                            <a href='{{route("user.edit",$item->id)}}' class='btn btn-success'>update</a>
 
-                            <input onclick='return confirm("Are you sure?")' type='submit' class='btn btn-danger' value='حذف'>
+                            <input onclick='return confirm("Are you sure?")' type='submit' class='btn btn-danger' value='Delete'>
                         </form>
                     </td>
                 </tr>
@@ -32,5 +51,8 @@
     </table>
 
 @endsection
+
+
+
 
 

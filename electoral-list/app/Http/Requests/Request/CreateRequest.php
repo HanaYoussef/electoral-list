@@ -24,7 +24,9 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:30|unique:Users'
+            'name'=>'required |max:255',
+            'email'=>'required |email|unique:users',
+            'profile_photo_pat'=> 'image'
         ];
     }
 }

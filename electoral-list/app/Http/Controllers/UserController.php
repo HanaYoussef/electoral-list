@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Requests\CreateRequest;
-use App\Http\Requests\EditRequest;
+use App\Http\Requests\Request\CreateRequest;
+use App\Http\Requests\Request\EditRequest;
 
 class UserController extends Controller
 {
@@ -17,6 +17,17 @@ class UserController extends Controller
     public function index()
     {
         $items = User::get();
+        /*$q = request()->q;
+
+       // $items = User::whereRaw('true');
+
+        if($q)
+        $items->where('title','like',"%$q%");
+
+        $items=$items->orderBy('name')->appends([
+            'q'=>$q,
+  
+        ]);*/
        // dd($item);
        return view("user.index")->withItems($items);
     }
@@ -39,13 +50,14 @@ class UserController extends Controller
      */
     public function store(CreateRequest $request)
     {
-       /* 
+
         if(!$request->active){
             $request['active'] = '0';
         }
-        User::create($request->all());
-
-        return redirect(route('user.index'))->with('msg','User Created Successfully');*/
+        $requestData = $request->all();
+        $requestData['password'] = bcrypt('123456789');
+        User::create($requestData);
+        return redirect(route('user.index'))->with('msg','User Created Successfully');
     }
 
     /**
@@ -87,11 +99,13 @@ class UserController extends Controller
      */
     public function update(EditRequest $request, $id)
     {
+
         if(!$request->active){
             $request['active'] = '0';
         }
         $item = User::find($id);
         $item->update($request->all());
+
         return redirect(route('user.index'))->with("msg","User Updated Successfully");
     }
 
