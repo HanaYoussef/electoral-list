@@ -1,3 +1,6 @@
+@extends('layouts.base')
+@section('title','Show User')
+@section('content')
 <form>
 <div class="mb-3">
     <label for="name" class="form-label">User Name</label>
@@ -11,3 +14,5 @@
  
   <a href="{{route('user.index')}}" class="btn btn-secondary">Cancel</a>
 </form>
+
+@endsection

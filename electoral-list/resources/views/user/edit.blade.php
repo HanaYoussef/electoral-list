@@ -1,3 +1,7 @@
+@extends('layouts.base')
+@section('title','Edit User')
+@section('content')
+
 <form method='post' action='{{route("user.update",$item->id)}}'>
 @csrf
 @method('put')
@@ -14,3 +18,5 @@
   <button type="submit" class="btn btn-primary">update</button>
   <a href="{{route('user.index')}}" class="btn btn-secondary">Cancel </a>
 </form>
+
+@endsection
