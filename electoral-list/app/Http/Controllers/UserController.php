@@ -25,7 +25,7 @@ class UserController extends Controller
         if($q)
         $items->where('name','like',"%$q%");
 
-        $items=$items->orderBy('name')->paginate(1)->appends([
+        $items=$items->paginate(2)->appends([
             'q'=>$q,
   
         ]);
@@ -52,6 +52,7 @@ class UserController extends Controller
      */
     public function store(CreateRequest $request)
     {
+
 
         if(!$request->active){
             $request['active'] = '0';
