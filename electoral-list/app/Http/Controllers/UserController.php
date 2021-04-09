@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Request\CreateRequest;
 use App\Http\Requests\Request\EditRequest;
 
@@ -16,19 +17,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $items = User::get();
-        /*$q = request()->q;
+        //$items = User::paginate(1);
+        $q = request()->q;
 
-       // $items = User::whereRaw('true');
+        $items = User::whereRaw('true');
 
         if($q)
-        $items->where('title','like',"%$q%");
+        $items->where('name','like',"%$q%");
 
-        $items=$items->orderBy('name')->appends([
+        $items=$items->orderBy('name')->paginate(1)->appends([
             'q'=>$q,
   
-        ]);*/
+        ]);
        // dd($item);
+       //$items=$items->paginate(10);
        return view("user.index")->withItems($items);
     }
 

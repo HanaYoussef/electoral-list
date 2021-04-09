@@ -26,7 +26,8 @@
                 <th width='10%'>#</th>
                 <th>Nmae </th>
                 <th width='10%'>Active</th>
-                <th width='30%'>Options </th>
+                <th width='10%'>Email</th>
+                <th width='10%'>Options </th>
             </tr>
             </thead>
             <tbody>
@@ -35,13 +36,11 @@
                     <td>{{$item->id}}</td>
                     <td>{{$item->name}}</td>
                     <td>{{$item->active?'Active':'In Active'}}</td>
+                    <td>{{$item->email}}</td>
                     <td>
                         <form method='post' action="{{route('user.destroy',$item->id)}}">
                             @csrf
                             @method('delete')
-                            <a href='{{route("user.show",$item->id)}}' class='btn btn-info'>show</a>
-                            <a href='{{route("user.edit",$item->id)}}' class='btn btn-success'>update</a>
-
                             <input onclick='return confirm("Are you sure?")' type='submit' class='btn btn-danger' value='Delete'>
                         </form>
                     </td>
@@ -49,8 +48,14 @@
             @endforeach
             </tbody>
     </table>
+    {{ $items->links() }}
 
 @endsection
+
+
+
+
+
 
 
 

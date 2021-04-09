@@ -18,7 +18,7 @@
     <input  {{$item->active?"checked":""}} type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1" >Active</label>
   </div>
- 
+  
   <a href="{{route('user.index')}}" class="btn btn-secondary">Cancel</a>
 </form>
 
