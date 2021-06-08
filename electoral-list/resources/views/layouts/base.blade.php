@@ -3,6 +3,9 @@
 <!-- BEGIN: Head-->
 
 <head>
+    {{--  ** for ajax **  --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{--  ** for ajax **  --}}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -41,6 +44,12 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vuexy/assets/css/style-rtl.css')}}">
     <!-- END: Custom CSS-->
 
+    {{--  ** for ajax **  --}}
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    {{--  ** for ajax **  --}}
     @yield('css')
 
 </head>
@@ -118,7 +127,7 @@
             </a></li>
         <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
                 <div class="d-flex">
-                    <div class="mr-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
+                    <div class="mr-75"><img src="{{asset('vuexy/app-assets/images/icons/xls.png')}}" alt="png" height="32"></div>
                     <div class="search-data">
                         <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
                     </div>
@@ -247,11 +256,11 @@
                
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">User</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('user.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        <li><a class="d-flex align-items-center" href="{{route('users.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('user.show', auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="View">View</span></a>
+                        <li><a class="d-flex align-items-center" href="{{route('users.show', auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="View">View</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('user.edit',auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
+                        <li><a class="d-flex align-items-center" href="{{route('users.edit',auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
                         </li>
                     </ul>
                 </li>
@@ -292,10 +301,11 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{asset('vuexy/app-assets/vendors/js/vendors.min.js')}}"></script>
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> --}}
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="{{asset('vuexy/app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
+    {{-- <script src="{{asset('vuexy/app-assets/vendors/js/charts/apexcharts.min.js')}}"></script> --}}
     <script src="{{asset('vuexy/admin-panel/app-assets/vendors/js/extensions/toastr.min.js')}}"></script>
     <!-- END: Page Vendor JS-->
 
@@ -305,7 +315,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="{{asset('vuexy/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script>
+    {{-- <script src="{{asset('vuexy/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script> --}}
     <!-- END: Page JS-->
 
     <script>
