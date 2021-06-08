@@ -55,7 +55,7 @@ class UserController extends Controller
 
 
         if(!$request->active){
-            $request['active'] = '0';
+            $request['active'] = false;
         }
         $requestData = $request->all();
         $requestData['password'] = bcrypt('123456789');

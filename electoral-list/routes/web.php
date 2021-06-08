@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,13 @@ Route::group(['middleware'=>'auth'],function(){
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::resource('posts',PostController::class);
+Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
+
+// Resource Route for Cateory.
+Route::group(['middleware'=>'auth'],function(){
+Route::resource('categories', CategoryController::class);
+// Route for get categories for yajra post request.
+Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
+});
