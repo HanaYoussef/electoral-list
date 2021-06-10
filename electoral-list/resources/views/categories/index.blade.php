@@ -1,40 +1,152 @@
 @extends('layouts.base')
+@section('title','View Category')
 @section('css')
-<title>Laravel 8 Ajax CRUD Application - laravelcode.com</title>
-    <!-- CSRF Token -->
-    
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.js">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        {{ __('Category Listing') }}
-                        <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#CreateCategoryModal">
-                            Create Category
-                        </button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered datatable">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th width="150" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<!-- {{-- <form class='row dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1' >
+
+<div class='col-sm-3'>
+    <input class='form-control' autofocus value='{{request()->q??''}}' name='q' type='text' placeholder='Enter your search' />
 </div>
+
+<div class='col-sm-1'>
+    <input type='submit' Value='Search' class='btn btn-primary' />
+</div>
+<div class='col-sm-3'>
+    <a class='btn btn-primary' href='{{route("categories.create")}}'><span>Add New User</span></a>
+</div>
+</form> --}} -->
+<!-- {{-- <form class='row'> --}} -->
+<!-- {{-- <div class='col-sm-6'>
+    <input class='form-control' autofocus value='{{request()->q??''}}' name='q' type='text' placeholder='Enter your search' />
+</div> --}} -->
+
+
+
+<!-- {{-- <div class='col-sm-0 mr-1 p-0  '>
+    <input type='submit' Value='Search' class='btn btn-primary' />
+</div> --}} -->
+<div class='col-sm-3 m-0 p-0'>
+    <button class='btn btn-success'data-toggle="modal" data-target="#CreateCategoryModal"  >Add new Category </button>
+    <!-- {{-- <a class="btn btn-success" href="javascript:void(0)" id="createNewUser"> Create New Category</a> --}} -->
+</div>
+<!-- {{-- </form> --}} -->
+<br>
+
+<!-- {{-- <table  class="user-list-table table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+
+<thead>
+<tr>
+    <th width='10%'>#</th>
+    <th>Nmae </th>
+    <th width='10%'>Active</th>
+    
+    <th width='10%'>Options </th>
+</tr>
+</thead>
+<tbody>
+@foreach($items as $item)
+    <tr>
+        <td>{{$item->id}}</td>
+        <td>{{$item->name}}</td>
+        <td>{{$item->active?'Active':'In Active'}}</td>
+        <td>{{$item->email}}</td>
+        <td>
+            <form method='post' action="{{route('categories.destroy',$item->id)}}">
+                @csrf
+                @method('delete')
+                <input onclick='return confirm("Are you sure?")' type='submit' class='btn btn-danger' value='Delete'>
+            </form>
+        </td>
+    </tr>
+@endforeach
+</tbody>
+</table> --}} -->
+<table class="table table-bordered datatable">
+<thead>
+<tr>
+    <th>No</th>
+    <th>Name</th>
+    <th>active</th>
+    <th width="280px" class="text-center">Action</th>
+</tr>
+</thead>
+
+</table>
+
+    <!-- {{-- {{ $items->links() }} --}} -->
+
+    <!-- {{-- <div class="modal modal-slide-in new-user-modal fade show" id="modals-slide-in" style="display: block; padding-right: 17px; padding-top: 17px;" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <form method='post' action='{{route("user.store")}}' class="add-new-user modal-content pt-0">
+      
+            @csrf
+      
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+            </div>
+            <div class="modal-body flex-grow-1">             
+            <div class="form-group">
+            <label class="form-label" for="basic-icon-default-uname">Username</label>
+            <input type="text" id="name" name="name" class="form-control dt-uname" placeholder="Web Developer" aria-label="jdoe1" aria-describedby="basic-icon-default-uname2" name="user-name">
+            </div>
+            <div class="form-group">
+            <label class="form-label" for="basic-icon-default-email">Email</label>
+            <input type="text" id="email" name="email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" aria-describedby="basic-icon-default-email2" name="user-email">
+            <small class="form-text text-muted"> You can use letters, numbers &amp; periods </small>
+            </div>
+            <div class="mb-3 form-check">
+            <input type='hidden' name='active' value='0'/>
+            <input {{old("active")?"checked":""}} type="checkbox" name='active' value='1' class="form-check-input" id="active">
+            <label class="form-check-label" for="active">Active</label>
+            </div>              
+            <button type="submit" class="btn btn-primary mr-1 data-submit waves-effect waves-float waves-light">Create</button>
+            <a href="{{route('user.index')}}" class="btn btn-secondary">Cancel</a>
+            </div>
+            </form>
+          </div>
+        </div> --}} -->
+ <!-- Modal to add new user starts-->
+ <!-- {{-- <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
+        <div class="modal-dialog">
+            <form class="add-new-user modal-content pt-0" method='post' action="{{route('user.store')}}" role="form" >
+                @csrf
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">  Add new user </h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="form-group">
+                        <label class="form-label" for="basic-icon-default-fullname"> Name</label>
+                        <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="Enter your name" name="orderName" aria-label="John Doe" aria-describedby="basic-icon-default-fullname2" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="basic-icon-default-email">Email</label>
+                        <input type="text" id="email" name="email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" aria-describedby="basic-icon-default-email2" name="user-email">
+                        <small class="form-text text-muted"> You can use letters, numbers &amp; periods </small>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type='hidden' name='active' value='0'/>
+                        <input {{old("active")?"checked":""}} type="checkbox" name='active' value='1' class="form-check-input" id="active">
+                        <label class="form-check-label" for="active">Active</label>
+                    </div>  
+                   
+                    <button  
+                    type="submit" class="btn btn-primary mr-1  waves-effect waves-float waves-light">
+                        Create
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">cancel</button>
+                </div>
+            </form>
+        </div>
+    </div> --}} -->
+
 
 <!-- Create Category Modal -->
 <div class="modal" id="CreateCategoryModal">
@@ -59,7 +171,7 @@
                     </button>
                 </div>
                 <div class="form-group">
-                    <label for="title">name:</label>
+                    <label for="name">name:</label>
                     <input type="text" class="form-control" name="name" id="name">
                 </div>
                <div class="mb-3 form-check">
@@ -77,6 +189,7 @@
     </div>
 </div>
 
+          
 <!-- Edit Category Modal -->
 <div class="modal" id="EditCategoryModal">
     <div class="modal-dialog">
@@ -137,12 +250,14 @@
 </div>
 @endsection
 
-@section('script')
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+@section('js')
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
         // init datatable.
+        
         var dataTable = $('.datatable').DataTable({
             processing: true,
             serverSide: true,
@@ -154,15 +269,15 @@
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
-                {data: 'active', name: 'active'},
+                {data: 'active', name: 'active', render:function(data,type,row,meta){return data?"Active":"Inactive"}},
                 {data: 'Actions', name: 'Actions',orderable:false,serachable:false,sClass:'text-center'},
             ]
         });
+
  
         // Create Category Ajax request.
 
         $('#SubmitCreateCategoryForm').click(function(e) {
-            alert('hello');
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -170,11 +285,12 @@
                 }
             });
             $.ajax({
-                url: "{{ route('categories.store') }}",
+                url: "{{ route('categories.store') }}",                
                 method: 'post',
+                dataType: 'JSON',
                 data: {
                     name: $('#name').val(),
-                    active: $('#active').val(),
+                    active:$('#active').is(":checked")?1:0
                 },
                 success: function(result) {
                     if(result.errors) {
@@ -214,8 +330,11 @@
                 //     id: id,
                 // },
                 success: function(result) {
-                    console.log(result);
+                    // console.log(result);
                     $('#EditCategoryModalBody').html(result.html);
+                    if(result.isChecked){
+                            $("#editActive").prop("checked",true);
+                        }
                     $('#EditCategoryModal').show();
                 }
             });
@@ -234,7 +353,7 @@
                 method: 'PUT',
                 data: {
                     name: $('#editName').val(),
-                    active: $('#editActive').val(),
+                    active: $('#editActive').is(":checked")?1:0,
                 },
                 success: function(result) {
                     if(result.errors) {
@@ -247,7 +366,7 @@
                         $('.alert-danger').hide();
                         $('.alert-success').show();
                         $('.datatable').DataTable().ajax.reload();
-                        setInterval(function(){ 
+                        setTimeout(function(){ 
                             $('.alert-success').hide();
                             $('#EditCategoryModal').hide();
                         }, 2000);
@@ -273,11 +392,19 @@
                 url: "categories/"+id,
                 method: 'DELETE',
                 success: function(result) {
-                    setInterval(function(){ 
+                    if(!result.errors) {
+                        $('.alert-danger').hide();
+                        $('.alert-success').show();
                         $('.datatable').DataTable().ajax.reload();
-                        $('#DeleteCategoryModal').hide();
-                    }, 1000);
-                }
+                        setTimeout(function(){ 
+                            $('.alert-success').hide();
+                            $('#DeleteCategoryModal').hide();
+                            $('.modal-backdrop').hide();
+                        }, 1000);
+                }else{
+                        console.log('error');
+                    }
+                    }
             });
         });
     });

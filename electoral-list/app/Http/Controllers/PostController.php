@@ -92,7 +92,7 @@ class PostController extends Controller
         return response()->json(['html'=>$html]);
     }
     
-    public function update(EditRequest $request, Post $post)
+    public function update(Request $request, $id)
     {
  /*  if(!$post)
             return redirect(route('post.index'))->with("Invalid Post ID");
@@ -104,17 +104,21 @@ class PostController extends Controller
         $post->update($data);
         return response()->json(['success'=>'post updated successfully']);
        // return redirect(route('post.index'))->with("Updated Successfully");**/
-       
+      
        $post= new Post;
        $post->updateData($id, $request->all());
 
        return response()->json(['success'=>'Post updated successfully']);
     }
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $post->delete();
+       /* $post->delete();
         return response()->json(['success'=>'Post deleted successfully']);
-        //return redirect(route('post.index'))->with("Post Deleted Successfully");
+        //return redirect(route('post.index'))->with("Post Deleted Successfully");*/
+        $post= new Post;
+        $post->deleteData($id);
+ 
+        return response()->json(['success'=>'Post deleted successfully']);
     }
     
 

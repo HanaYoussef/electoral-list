@@ -1,7 +1,7 @@
-@extends('categories.layout')
-
-@section('style')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+@extends('layouts.base')
+@section('title','View Category')
+@section('css')
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 @endsection
 
 @section('content')
@@ -12,9 +12,11 @@
                 <div class="card-body">
                     <div class="card-title">
                         {{ __('Post Listing') }}
+                        <br>  <div class='col-sm-2 m-0 p-0'>
                         <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#CreatePostModal">
-                            Create post
+                            Create New post
                         </button>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered datatable">
@@ -23,6 +25,7 @@
                                     <th>Id</th>
                                     <th>Title</th>
                                     <th>details</th>
+                                    <th>Summary</th>
                                     <th width="150" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -143,7 +146,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('js')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
@@ -258,7 +261,7 @@
                         $('.alert-danger').hide();
                         $('.alert-success').show();
                         $('.datatable').DataTable().ajax.reload();
-                        setInterval(function(){ 
+                        setTimeout(function(){ 
                             $('.alert-success').hide();
                             $('#EditPostModal').hide();
                         }, 2000);
@@ -266,9 +269,8 @@
                 }
             });
         });
- 
-        // Delete Category Ajax request.
-        var deleteID;
+   // Delete Category Ajax request.
+   var deleteID;
         $('body').on('click', '#getDeleteId', function(){
             deleteID = $(this).data('id');
         })
@@ -284,11 +286,19 @@
                 url: "posts/"+id,
                 method: 'DELETE',
                 success: function(result) {
-                    setInterval(function(){ 
+                    if(!result.errors) {
+                        $('.alert-danger').hide();
+                        $('.alert-success').show();
                         $('.datatable').DataTable().ajax.reload();
-                        $('#DeletePostModal').hide();
-                    }, 1000);
-                }
+                        setInterval(function(){ 
+                            $('.alert-success').hide();
+                            $('#DeletePostModal').hide();
+                            $('.modal-backdrop').hide();
+                        }, 1000);
+                }else{
+                        console.log('error');
+                    }
+                    }
             });
         });
     });

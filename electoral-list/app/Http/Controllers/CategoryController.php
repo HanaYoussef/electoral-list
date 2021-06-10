@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -14,6 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        // dd('hanaaaa');
         return view('categories.index');
     }
 
@@ -28,17 +29,16 @@ class CategoryController extends Controller
     }
     public function getCategories(Request $request, Category $category)
     {
-        $data =$category->getData();
+        $data = $category->getData();
+        // dd($data);
         return \DataTables::of($data)
             ->addColumn('Actions', function($data) {
                 return '<button type="button" class="btn btn-success btn-sm" id="getEditCategoryData" data-id="'.$data->id.'">Edit</button>
-
                     <button type="button" data-id="'.$data->id.'" data-toggle="modal" data-target="#DeleteCategoryModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
             })
             ->rawColumns(['Actions'])
             ->make(true);
     }
- 
     /**
      * Store a newly created resource in storage.
      *
@@ -47,18 +47,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request, Category $category)
     {
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required',
+            
+        ]);
         if(!$request->active){
             $request['active'] = '0';
         }
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
+       
          
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
- 
-        $category->storeData($request->all());
+        $requestData= $request->all();
+        $category->storeData($requestData);
  
         return response()->json(['success'=>'Category added successfully']);
     }
@@ -86,7 +88,7 @@ class CategoryController extends Controller
     {
         $category = new Category;
         $data = $category->findData($id);
- 
+        $isChecked = $data->active;
         $html = '<div class="form-group">
                     <label for="name">name:</label>
                     <input type="text" class="form-control" name="name" id="editName" value="'.$data->name.'">
@@ -98,7 +100,8 @@ class CategoryController extends Controller
     <label class="form-check-label" for="active">Active</label>
   </div>';
  
-        return response()->json(['html'=>$html]);
+        // return response()->json(['html'=>$html]);
+       return response()->json(['html'=>$html , 'isChecked'=>$isChecked]);
     }
 
     /**
