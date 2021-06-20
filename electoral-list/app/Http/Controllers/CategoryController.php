@@ -64,23 +64,15 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-           // $category = new Category;
-            //$data = Category::findOrFail(10);
-            try
-            {
-                $data = Category::findorfail(10)->toArray();
-            }
-            catch(ModelNotFoundException $e)
-            {
-                return response()->json(['status' => 'failed', 'data' => null, 'message' => 'User not found']);
-            }
-         // $data = Category::findorfail($id);   
-          $isChecked = $data->active;
-          $html = view('categories.edit', compact('data'))->render();
-          // $html = \View::make('categories.edit',compact('data'));
-         return response()->json(['html'=>$html , 'isChecked'=>$isChecked]); 
+        $data = Category::find($id);
+        if(!$data){
+            return response()->json(['error'=>' Invalid Category ID']);
+        }  
+       $isChecked = $data->active;
+       $html = view('categories.edit', compact('data'))->render();
+       return response()->json(['html'=>$html , 'isChecked'=>$isChecked]); 
    
-        }
+    }
     public function update(Request $request, $id)
     {
         if(!$request->active){
@@ -101,7 +93,11 @@ class CategoryController extends Controller
     }
     public function destroy($id)
     { 
-        $category  = Category::findOrFail($id);
+        $category = Category::find($id);
+        if(!$category){
+            return response()->json(['error'=>' Invalid Category ID']);
+        } 
+        // $category  = Category::findOrFail($id);
         $category->delete($id);
  
         return response()->json(['success'=>'Category deleted successfully']);
