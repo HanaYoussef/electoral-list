@@ -137,8 +137,6 @@ class UserController extends Controller
         $user = new User;
         $data = $user->findData($id);
         $isChecked = $data->active;
-      
-        
 
         $html = '<div class="form-group">
                     <label for="Name">Name:</label>
@@ -158,8 +156,6 @@ class UserController extends Controller
                     <label class="form-check-label" for="active">Active</label>
                 </div>
                 ';
-                // dd($checked);
-
         return response()->json(['html'=>$html , 'isChecked'=>$isChecked]);
     }
      

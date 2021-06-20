@@ -27,13 +27,22 @@ Route::get('/index', function () {
     return view('frontEnd.index');
 });*/
 Route::get('/index', [HomeController::class, 'index']);
+Route::get('/get-post/{title}', [HomeController::class, 'getPost'])->name('getPost');
+Route::get('/search', [HomeController::class, 'search']);
 
+Route::get('/autocomplete-search-query', [HomeController::class, 'query'])->name('autocomplete-search-query');
+Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autocomplete');
 // Resource Route for Cateory.
 Route::group(['middleware'=>'auth'],function(){
     Route::resource('categories', CategoryController::class);
     // Route for get categories for yajra post request.
     Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
-    });
+    
+    Route::resource('posts',PostController::class);
+    Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
+});
+
+
     
 Route::group(['middleware'=>'auth'],function(){
     // Route::get("user/{id}/delete",[UserController::class,"destroy"])->name('user.delete');
@@ -50,8 +59,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('posts',PostController::class);
-Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
+
 
 // Resource Route for Cateory.
 Route::group(['middleware'=>'auth'],function(){

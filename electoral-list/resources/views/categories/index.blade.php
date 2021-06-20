@@ -265,7 +265,8 @@
             pageLength: 5,
             // scrollX: true,
             "order": [[ 0, "desc" ]],
-            ajax: '{{ route('get-categories') }}',
+            dataSrc:"",
+            ajax: '{{ route('categories.index') }}',
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
@@ -309,7 +310,16 @@
                             location.reload();
                         }, 2000);
                     }
-                }
+                },
+                error:function(xhr,status,error){
+                        console.log(xhr.responseJSON,status,error);
+                        $('.alert-danger').html('');
+                            $.each(error, function(key, value) {
+                                $('.alert-danger').show();
+                                // $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                $('.alert-danger').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                            });
+                    }
             });
         });
  
@@ -336,13 +346,24 @@
                             $("#editActive").prop("checked",true);
                         }
                     $('#EditCategoryModal').show();
-                }
+                },
+                error:function(xhr,status,error){
+                        console.log(xhr.responseJSON,status,error);
+                        $('.alert-danger').html('');
+                            $.each(error, function(key, value) {
+                                $('.alert-danger').show();
+                                // $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                $('.alert-danger').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                            });
+                    }
             });
         });
  
         // Update Category Ajax request.
         $('#SubmitEditCategoryForm').click(function(e) {
+
             e.preventDefault();
+         
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -371,7 +392,16 @@
                             $('#EditCategoryModal').hide();
                         }, 2000);
                     }
-                }
+                },
+                error:function(xhr,status,error){
+                        console.log(xhr.responseJSON,status,error);
+                        $('.alert-danger').html('');
+                            $.each(error, function(key, value) {
+                                $('.alert-danger').show();
+                                // $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                $('.alert-danger').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                            });
+                    }
             });
         });
  

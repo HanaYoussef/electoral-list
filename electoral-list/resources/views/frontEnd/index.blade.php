@@ -98,7 +98,7 @@
                 <aside class="right-sidebar">
                     <div class="search-widget">
                         <div class="input-group">
-                          <input type="text" class="form-control input-lg" placeholder="Search for...">
+                          <input type="text" class=" typeahead form-control input-lg" placeholder="Search for...">
                           <span class="input-group-btn">
                             <button class="btn btn-lg btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -106,7 +106,7 @@
                           </span>
                         </div><!-- /input-group -->
                     </div>
-
+        
                     <div class="widget">
                         <div class="widget-heading">
                             <h4>Categories</h4>
@@ -195,4 +195,42 @@
         </div>
     </div>
 
+@endsection
+
+
+@section('js')
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript">
+    var path = "{{ route('autocomplete') }}";
+   
+        $('input.typeahead').typeahead({
+            source:  function (query, process) {
+                return $.get(path, { query: query }, function (data) {
+                    // console.log(data);
+                    // var results = process(data.dataModified);
+                   
+                    return process(data.dataModified);
+                    
+          
+
+                });
+            },
+            select: function () {
+                // console.log(query);
+                var val = this.$menu.find('.active').data('value');
+                var getPost = "{{route('getPost',':val') }}";
+                getPost = getPost.replace(':val',val);
+                // console.log(getPost);
+               return $.get(getPost);
+            //    console.log(getPost);
+                // console.log(data.post);
+               
+            
+                },
+        
+
+        });
+      
+</script>
 @endsection

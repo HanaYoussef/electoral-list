@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="rtl">
 <!-- BEGIN: Head-->
 
 <head>
-<!-- {{--  ** for ajax **  --}} -->
+    {{--  ** for ajax **  --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- {{--  ** for ajax **  --}} -->
+    {{--  ** for ajax **  --}}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -18,40 +18,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/vendors.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/charts/apexcharts.css ') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/extensions/toastr.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/vendors-rtl.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/charts/apexcharts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/extensions/toastr.min.css')}}">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/themes/bordered-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/themes/semi-dark-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/bootstrap-extended.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/colors.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/components.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/themes/dark-layout.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/themes/bordered-layout.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/themes/semi-dark-layout.css')}}">
 
     <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/pages/dashboard-ecommerce.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/plugins/charts/chart-apex.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/plugins/extensions/ext-component-toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/pages/dashboard-ecommerce.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/plugins/charts/chart-apex.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/plugins/extensions/ext-component-toastr.css')}}">
     <!-- END: Page CSS-->
-  
-    <!-- <script type="text/javascript" href="{{asset('vuexy/app-assets/data/locales/en.json') }}"></script> -->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css-rtl/custom-rtl.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vuexy/assets/css/style-rtl.css')}}">
     <!-- END: Custom CSS-->
-    <!-- {{--  ** for ajax **  --}} -->
+
+    {{--  ** for ajax **  --}}
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- {{--  ** for ajax **  --}} -->
+    {{--  ** for ajax **  --}}
     @yield('css')
-
 
 </head>
 <!-- END: Head-->
@@ -202,7 +201,6 @@
     <!-- END: Header-->
 
 
-    
     <!-- BEGIN: Main Menu-->
     <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="navbar-header">
@@ -267,20 +265,7 @@
                     </ul>
                 </li>
              
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                <span class="menu-title text-truncate" data-i18n="Categories">Categories</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('categories.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle"><circle cx="12" cy="12" r="10"></circle></svg><span class="menu-title text-truncate" data-i18n="Posts">Posts</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('posts.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                    </ul>
-                </li>
+            
             </ul>
         </div>
     </div>
@@ -294,7 +279,6 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-
                 <!-- Dashboard Ecommerce Starts -->
                 @yield('content')
                 <!-- Dashboard Ecommerce ends -->
@@ -317,11 +301,12 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{asset('vuexy/app-assets/vendors/js/vendors.min.js')}}"></script>
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> --}}
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <!-- <script src="{{asset('vuexy/app-assets/vendors/js/charts/apexcharts.min.js')}}"></script> -->
-    <!-- <script src="{{asset('vuexy/app-assets/vendors/js/extensions/toastr.min.js')}}"></script> -->
+    {{-- <script src="{{asset('vuexy/app-assets/vendors/js/charts/apexcharts.min.js')}}"></script> --}}
+    {{-- <script src="{{asset('vuexy/admin-panel/app-assets/vendors/js/extensions/toastr.min.js')}}"></script>--}}
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -330,7 +315,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <!-- <script src="{{asset('vuexy/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script> -->
+    {{-- <script src="{{asset('vuexy/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script> --}}
     <!-- END: Page JS-->
 
     <script>
@@ -343,7 +328,7 @@
             }
         })
     </script>
-    
+
     @yield('js')
 </body>
 <!-- END: Body-->
