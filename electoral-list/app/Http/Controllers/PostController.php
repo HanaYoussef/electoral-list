@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\Post\CreateRequest;
 use App\Http\Requests\Post\EditRequest;
-
+use App\Models\Category;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -12,16 +12,27 @@ use App\Models\Post;
 class PostController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('post.index');
+        $categories = Category::all();
+        if($request->ajax()){
+
+            return $this->getPosts($request);
+        }
+        return view('post.index',compact('categories'));
     }
 
 
-    public function getPosts(Request $request, Post $post)
+    public function getPosts(Request $request)
     {
-        $data =$post->getData();
+        $data =Post::orderBy('created_at','desc')->get();
+        // dd($data);
+        $categories = Category::all();
+
         return \DataTables::of($data)
+            ->addColumn('Category', function(Post $post) {
+                return $post->category->name;
+                })
             ->addColumn('Actions', function($data) {
                 return '<button type="button" class="btn btn-success btn-sm" id="getEditPostData" data-id="'.$data->id.'">Edit</button>
 
@@ -31,92 +42,105 @@ class PostController extends Controller
             ->make(true);
     }
     
-    public function show(Post $post)
-    {
-        //
-    }
    
-     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-   
-    public function store(CreateRequest $request,  Post $post)
+    public function store(Request $request)
     {
-     //   $data = $request->all();
-      //  $imagePath = $request->image->store('public/images');
-       // $data['image'] = $request->image->hashName();
-       // Post::create($data);
+        $validator = \Validator::make($request->all(), [
+            'title'=>'required|max:250',
+            'summary'=>'required|max:300',
+            'slug'=>'required|unique:posts',
+            'details'=>'required',
+            // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
+            'image'=>'image|required',
+            'category_id'=>'required', 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+        
+        $data= $request->all();
+
+        if($request->image){
+            // $image = $request->file('image');      
+            $filename=$request->image->store('public/images');
+            $imagename= $request->image->hashName();
+            $data['image'] = $imagename;
+        }
        
-       $post->storeData($request->all());
-    
-      
+        Post::create($data);
         return response()->json(['success'=>'post added successfully']);
     }
-
-
      /**
      * Show the form for editing the specified resource.
      *
      * 
      * @return \Illuminate\Http\Response
-     */
-
-      
+     */ 
     public function edit($id)
     {
-        $post = Post::find($id);
-        $data = $post->findData($id);
- 
-        $html = '<div class="form-group">
-                    <label for="name">title:</label>
-                    <input type="text" class="form-control" name="title" id="editTitle" value="'.$data->title.'">
-                </div>
-        
-                <div class="form-group">
-                <label for="name">details:</label>
-                <input type="text" class="form-control" name="details" id="editDetails" value="'.$data->details.'">
-            </div>
-            <div class="form-group">
-                    <label for="name">slug:</label>
-                    <input type="text" class="form-control" name="slug" id="editSlug" value="'.$data->slug.'">
-                </div>
-                <div class="form-group">
-                <label for="name">summary:</label>
-                <input type="text" class="form-control" name="summary" id="editSummary" value="'.$data->summary.'">
-            </div>
-                ';
- 
+       $categories = Category::all();
+        $data = Post::find($id);
+
+        if(!$data){
+            response()->json(['status'=>false , 'msg'=>'invalid id']);
+        }
+
+        $html=\View::make('post.editPost',[
+            'title'=>$data->title , 
+            'slug'=>$data->slug,
+            'details'=>$data->details,
+            'summary'=>$data->summary,
+            'category_id'=>$data->category_id,
+            'image'=>$data->image,
+            'published'=>$data->published,
+            'categories'=>$categories
+            ])->render();
         return response()->json(['html'=>$html]);
     }
     
     public function update(Request $request, $id)
     {
- /*  if(!$post)
-            return redirect(route('post.index'))->with("Invalid Post ID");
-        $data = $request->all();
-        if($request->image){
-            $imagePath = $request->image->store('public/images');
-            $data['image'] = $request->image->hashName();
+        // dd($request->all());
+        $post = Post::find($id);
+        if(!$post){
+            response()->json(['status'=>false , 'msg'=>'invalid id']);
         }
-        $post->update($data);
-        return response()->json(['success'=>'post updated successfully']);
-       // return redirect(route('post.index'))->with("Updated Successfully");**/
-      
-       $post= new Post;
-       $post->updateData($id, $request->all());
 
+       $validator = \Validator::make($request->all(), [
+            'title'=>'required|max:250'.$id,
+            'slug'=>'required|unique:posts,slug,'.$id,
+            'details'=>'required',
+            'summary'=>'required|max:300',
+            // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
+            // 'image'=>'image',
+            'category_id'=>'required', 
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+        $data= $request->all();
+        // dd( $request->image == 'undefined');
+        if( $request->image !='undefined' ){
+            // $image = $request->file('image');      
+            $filename=$request->image->store('public/images');
+            $imagename= $request->image->hashName();
+            $data['image'] = $imagename;
+        }else{
+            $data['image']  =$post->image ; 
+        }
+    //   dd($data);
+        $post->update($data);
        return response()->json(['success'=>'Post updated successfully']);
     }
     public function destroy($id)
     {
-       /* $post->delete();
-        return response()->json(['success'=>'Post deleted successfully']);
-        //return redirect(route('post.index'))->with("Post Deleted Successfully");*/
-        $post= new Post;
-        $post->deleteData($id);
+      
+        $post = Post::find($id);
+        if(!$post){
+            return response()->json('msg','Invalid Post ID');
+        }
+        $post->delete($id);
  
         return response()->json(['success'=>'Post deleted successfully']);
     }

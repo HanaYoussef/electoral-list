@@ -28,8 +28,9 @@ class CreateRequest extends FormRequest
             'summary'=>'required|max:300',
             'slug'=>'required|unique:posts',
             'details'=>'required',
-            //'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
-           // 'category_id'=>'required',
+            // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
+            'image'=>'image|required',
+            'category_id'=>'required',
         ];
     }
 }

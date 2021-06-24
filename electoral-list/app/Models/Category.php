@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Post ;
 
 use Laravel\Sanctum\HasApiTokens;
 
@@ -45,5 +46,10 @@ class Category extends Model
     public function deleteData($id)
     {
         return static::find($id)->delete();
+    }
+
+     public function post()
+    {
+        return $this->hasMany(Post::class);
     }
 }

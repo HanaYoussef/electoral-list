@@ -21,34 +21,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Resource Route for Cateory.
-Route::group(['middleware'=>'auth'],function(){
-    Route::resource('categories', CategoryController::class);
-    // Route for get categories for yajra post request.
-    Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
-    });
+
     
 Route::group(['middleware'=>'auth'],function(){
     // Route::get("user/{id}/delete",[UserController::class,"destroy"])->name('user.delete');
     // Route::resource("user",UserController::class);
 
-    // Resource Route for article.
+    // Resource Route for user.
     Route::resource('users', UserController::class);
-    // Route for get articles for yajra post request.
+    // Route for get user for yajra post request.
     Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
-    
+
+    // Resource Route for category.
+    Route::resource('categories', CategoryController::class);
+    // Route for get categories for yajra post request.
+    Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
+   
+    // Resource Route for post.
+    Route::resource('posts',PostController::class);
+    // Route::get('posts', [PostController::class, 'index']);
+    // Route::get('posts/{id}/edit', [PostController::class, 'edit']);
+    // Route::post('posts/{id}', [PostController::class,'update']);
+    Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
 });
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('posts',PostController::class);
-Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
 
-// Resource Route for Cateory.
-Route::group(['middleware'=>'auth'],function(){
-Route::resource('categories', CategoryController::class);
-// Route for get categories for yajra post request.
-Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
-});
+

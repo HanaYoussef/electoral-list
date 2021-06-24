@@ -264,6 +264,28 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">Category</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('categories.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('categories.show', auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="View">View</span></a> --}}
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('categories.edit',auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a> --}}
+                        </li>
+                    </ul>
+                </li>
+
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">Post</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('posts.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('categories.show', auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="View">View</span></a> --}}
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('categories.edit',auth()->user()->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a> --}}
+                        </li>
+                    </ul>
+                </li>
              
             
             </ul>

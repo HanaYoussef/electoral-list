@@ -5,66 +5,13 @@
 @endsection
 @section('content')
 
-<!-- {{-- <form class='row dt-action-buttons text-xl-right text-lg-left text-md-right text-left d-flex align-items-center justify-content-lg-end align-items-center flex-sm-nowrap flex-wrap mr-1' >
-
-    <div class='col-sm-3'>
-        <input class='form-control' autofocus value='{{request()->q??''}}' name='q' type='text' placeholder='Enter your search' />
-    </div>
-    
-    <div class='col-sm-1'>
-        <input type='submit' Value='Search' class='btn btn-primary' />
-    </div>
-    <div class='col-sm-3'>
-        <a class='btn btn-primary' href='{{route("user.create")}}'><span>Add New User</span></a>
-    </div>
-</form> --}} -->
-<!-- {{-- <form class='row'> --}} -->
-    <!-- {{-- <div class='col-sm-6'>
-        <input class='form-control' autofocus value='{{request()->q??''}}' name='q' type='text' placeholder='Enter your search' />
-    </div> --}} -->
-   
-
-   
-    <!-- {{-- <div class='col-sm-0 mr-1 p-0  '>
-        <input type='submit' Value='Search' class='btn btn-primary' />
-    </div> --}} -->
     <div class='col-sm-2 m-0 p-0'>
         <button class='btn btn-success'data-toggle="modal" data-target="#CreateUserModal"  >  Add new user </button>
         <!-- {{-- <a class="btn btn-success" href="javascript:void(0)" id="createNewUser"> Create New User</a> --}} -->
     </div>
-{{-- </form> --}}
+
 <br>
 
-
-<!-- {{-- <table  class="user-list-table table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
-
-            <thead>
-            <tr>
-                <th width='10%'>#</th>
-                <th>Nmae </th>
-                <th width='10%'>Active</th>
-                <th width='10%'>Email</th>
-                <th width='10%'>Options </th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($items as $item)
-                <tr>
-                    <td>{{$item->id}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->active?'Active':'In Active'}}</td>
-                    <td>{{$item->email}}</td>
-                    <td>
-                        <form method='post' action="{{route('user.destroy',$item->id)}}">
-                            @csrf
-                            @method('delete')
-                            <input onclick='return confirm("Are you sure?")' type='submit' class='btn btn-danger' value='Delete'>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-    </table> --}} -->
     <table class="table table-bordered datatable">
         <thead>
             <tr>
@@ -202,7 +149,7 @@
     </div>
 {{--   ***   End Create User Modal   ***  --}}
 
-<!--    ***   Start Edit Article Modal    ****  -->
+<!--    ***   Start Edit User Modal    ****  -->
 <div class="modal" id="EditUserModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -279,7 +226,7 @@
                 pageLength: 5,
                 // scrollX: true,
                 "order": [[ 0, "desc" ]],
-                ajax: '{{ route('get-users') }}',
+                ajax: '{{ route('users.index') }}',
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
@@ -292,8 +239,9 @@
             
 
             // Create User Ajax request.
-            $('#SubmitCreateUserForm').click(function(e) {
+        $('#SubmitCreateUserForm').click(function(e) {
             e.preventDefault();
+            $("#SubmitCreateUserForm").html('Loading').prepend('<span id="loadingCreate" class="spinner-border spinner-border-sm"></span>');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -310,8 +258,9 @@
                     active:$('#active').is(":checked")?1:0
                 },
                 success: function(result) {
+                    $("#SubmitCreateUserForm").html('Update');
+                    $('#loadingCreate').css('display','none');
                     if(result.errors) {
-                        console.log('errrrrrrror');
                         $('.alert-danger').html('');
                         $.each(result.errors, function(key, value) {
                             $('.alert-danger').show();
@@ -319,6 +268,7 @@
                         });
                     } else {
                         $('.alert-danger').hide();
+                        $('.modal').animate({ scrollTop: 0 }, 'slow');
                         $('.alert-success').show();
                         // console.log(data);
                         $('.datatable').DataTable().ajax.reload();
@@ -350,14 +300,8 @@
                     //     id: id,
                     // },
                     success: function(result) {
-                        //  alert(result);
                         $('#EditUserModalBody').html(result.html);
-                        // if($("#editActive").attr('value', '1')){
-                        //     $("#editActive").prop("checked",true);
-                        // }
-                        // else if($("#editActive").attr('value', '0')){
-                        // $("#editActive").prop("checked",false);
-                        // }
+
                         if(result.isChecked){
                             $("#editActive").prop("checked",true);
                         }
@@ -369,6 +313,7 @@
             // Update user Ajax request.
             $('#SubmitEditUserForm').click(function(e) {
                 e.preventDefault();
+                $("#SubmitEditUserForm").html('Loading').prepend('<span id="loadingUpdate" class="spinner-border spinner-border-sm"></span>');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -384,6 +329,10 @@
                         active: $('#editActive').is(":checked")?1:0,
                     },
                     success: function(result) {
+                        console.log(result);
+                        $("#SubmitEditUserForm").html('Update');
+                        $('#loadingUpdate').css('display','none');
+                        $('#EditUserModal').animate({ scrollTop: 0 }, 'slow');
                         if(result.errors) {
                             $('.alert-danger').html('');
                             $.each(result.errors, function(key, value) {
@@ -399,6 +348,15 @@
                                 $('#EditUserModal').hide();
                             }, 2000);
                         }
+                    },
+                    error:function(xhr,status,error){
+                        console.log(xhr.responseJSON,status,error);
+                        $('.alert-danger').html('');
+                            $.each(error, function(key, value) {
+                                $('.alert-danger').show();
+                                // $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                $('.alert-danger').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                            });
                     }
                 });
             });
