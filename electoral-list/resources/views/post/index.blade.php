@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title','View Category')
+@section('title','View Post')
 @section('css')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 @endsection
@@ -11,22 +11,24 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        {{ __('Post Listing') }}
-                        <br>  <div class='col-sm-2 m-0 p-0'>
-                        <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#CreatePostModal">
-                            Create New post
-                        </button>
+                       
+                        <div class='col-sm-2 m-0 p-0'>
+                            <button class='btn btn-success'data-toggle="modal" data-target="#CreatePostModal"  >  Create new Post </button>
+                            <!-- {{-- <a class="btn btn-success" href="javascript:void(0)" id="createNewUser"> Create New User</a> --}} -->
                         </div>
+                    
+                    {{-- <br> --}}
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered datatable">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Title</th>
-                                    <th>details</th>
-                                    <th>Summary</th>
-                                    <th width="150" class="text-center">Action</th>
+                                    <th width="20%">Title</th>
+                                    <th width="20%">Slug</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th width="25%" class="text-center">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -38,10 +40,12 @@
 </div>
 
 <!-- Create Category Modal -->
-<div class="modal" id="CreatePostModal">
-    <div class="modal-dialog">
+
+<div class="modal fade" id="CreatePostModal">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <!-- Modal Header -->
+            {{-- <form class="form-control" method="POST" enctype="multipart/form-data"> --}}
             <div class="modal-header">
                 <h4 class="modal-title"> Create Post</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -59,36 +63,67 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="form-group">
-                    <label for="title">title:</label>
-                    <input type="text" class="form-control" name="title" id="title">
-                </div>
-                <div class="form-group">
-                    <label for="title">details:</label>
-                    <input type="text" class="form-control" name="details" id="details">
-                </div>
-                <div class="form-group">
-                    <label for="title">slug:</label>
-                    <input type="text" class="form-control" name="slug" id="slug">
-                </div>
-                <div class="form-group">
-                    <label for="title">summary:</label>
-                    <input type="text" class="form-control" name="summary" id="summary">
-                </div>
-              
+                {{-- <form  method="POST" enctype="multipart/form-data" id="sampleForm" > --}}
+                    {{-- @csrf  --}}
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" {{old("title")}}  name="title" id="title" >
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Slug</label>
+                        <input type="text" class="form-control" {{old("slug")}} name="slug" id="slug">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Details</label>
+                        <input type="text" class="form-control" {{old("details")}} name="details" id="details">
+                    </div>                
+                    <div class="form-group">
+                        <label for="title">Summary</label>
+                        <textarea placeholder="Enter Summary here..."  class="form-control" {{old("summary")}} name="summary" id="summary"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        {{-- <input type="text" class="form-control" name="category_id" id="category_id"> --}}
+                        @if(isset($categories))
+                            <select  class="ddlStatus  form-control" name="category_id" id="category_id">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option  {{old('category_id')== $category->id ?'selected':''}} value="{{ $category->id }}">{{$category->name}}</option>
+                                @endforeach
+                                
+                            </select>    
+                        @endif
+                    
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <p id="disp_tmp_path"></p>
+                        <img src="" width="300px" height="300px" style="display: none;">
+                        <input type="file" class="form-control" name="image" id="image">
+                    </div>
+                    <div class="form-check">
+                        <input type='hidden' name="published" value='0'/>
+                        <input type="checkbox" class="form-check-input" name="published" id="published"
+                        value="1" {{old('published')==1 ?'checked': ''}}>
+                        <label class="form-check-label" for="published">Published</label>
+                    </div> 
+                {{-- </form> --}}
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="SubmitCreatePostForm">Create</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="SubmitCreatePostForm">Create</button> 
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
+        
         </div>
+     
     </div>
 </div>
+{{-- </form> --}}
 
-<!-- Edit Category Modal -->
-<div class="modal" id="EditPostModal">
-    <div class="modal-dialog">
+<!-- Edit Post Modal -->
+<div class="modal fade show" id="EditPostModal">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -102,7 +137,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                <div id="scrollTop" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                     <strong>Success!</strong>Post was updated successfully.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -116,7 +151,11 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="SubmitEditPostForm">Update</button>
+                
+                <button type="button" class="btn btn-success" id="SubmitEditPostForm">
+                    
+                    Update
+                </button>
                 <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -159,35 +198,85 @@
             pageLength: 5,
             // scrollX: true,
             "order": [[ 0, "desc" ]],
-            ajax: '{{ route('getPosts') }}',
+            ajax: '{{ route('posts.index') }}',
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'title', name: 'title'},
-                {data: 'details', name: 'details'},
                 {data: 'slug', name: 'slug'},
-                {data: 'summary', name: 'summary'},
+                {data: 'Category', name: 'Category',orderable:false,serachable:true,sClass:'text-center'},
+                {data: 'published', name: 'published', render:function(data,type,row,meta){return data?"Published":"Inpublished"}},
                 {data: 'Actions', name: 'Actions',orderable:false,serachable:false,sClass:'text-center'},
             ]
         });
  
         // Create Category Ajax request.
-        $('#SubmitCreatePostForm').click(function(e) {
-            e.preventDefault();
-            $.ajaxSetup({
+        // display image in create post
+        var tmppath ;
+        $('#image').change( function(event) {
+             tmppath = URL.createObjectURL(event.target.files[0]);
+            //  var file = document.getElementById("image").files[0];
+            $("img").fadeIn("slow").attr('src',URL.createObjectURL(event.target.files[0]));
+            
+            // $("#disp_tmp_path").html(" <strong>["+tmppath+"**"+file.value +"]</strong>");
+        });
+        
+        var tmppath1 ;
+        $(document).on("change", "#editImage", function() {
+            // alert("Files changed.");
+            tmppath1 = URL.createObjectURL(event.target.files[0]);
+             var file = document.getElementById("image").files[0];
+            $("img").fadeIn("slow").attr('src',URL.createObjectURL(event.target.files[0]));
+        });
+
+         
+           $('#SubmitCreatePostForm').click(function(e){
+                e.preventDefault();
+
+                $("#SubmitCreatePostForm").html('Loading').prepend('<span id="loadingCreate" class="spinner-border spinner-border-sm"></span>');
+                var title = $('#title').val();
+                var slug = $('#slug').val();
+                var details= $('#details').val();  
+                var summary= $('#summary').val();
+                var category_id = $('#category_id').val();
+                var published = $('#published').is(':checked')?1:0;
+                // var file = document.getElementById("image").files[0];
+                var file = $('#image').val(); // return name of image
+                // alert(file);
+                //  This is 2 code is working and return (Object file)
+                //1) document.getElementById("image").files[0]; / 2) $("#image").get(0).files[0];
+                var image = $("#image").get(0).files[0];
+                // alert(image);
+
+            var myformData  = new FormData();
+            // if (file.length > 0) {
+                myformData.append("title", title);
+                myformData.append("slug", slug);
+                myformData.append("details", details);
+                myformData.append("summary", summary);
+                myformData.append("category_id", category_id);
+                myformData.append("image", image);
+                // myformData.append("image", file);
+                myformData.append("published", published);
+            // };
+                $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
             $.ajax({
                 url: "{{ route('posts.store') }}",
-                method: 'post',
-                data: {
-                    title: $('#title').val(),
-                    details: $('#details').val(),
-                    slug: $('#slug').val(),
-                    summary: $('#summary').val(),
-                },
+                method: 'POST',
+                dataType: 'json',
+                // contentType: "multipart/form-data",// it used when data send to server
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: myformData , // it send form data to server
+                enctype: 'multipart/form-data',
                 success: function(result) {
+                    $("#SubmitCreatePostForm").html('Update');
+                    $('#loadingCreate').css('display','none');
+                   
                     if(result.errors) {
                         $('.alert-danger').html('');
                         $.each(result.errors, function(key, value) {
@@ -197,6 +286,9 @@
                     } else {
                         $('.alert-danger').hide();
                         $('.alert-success').show();
+                        // $('#CreatePostModal')[0].reset();
+                        $('#CreatePostModal').scrollTop(0);
+                        // $('#CreatePostModal').animate({ scrollTop: 0 }, 'slow');
                         $('.datatable').DataTable().ajax.reload();
                         setInterval(function(){ 
                             $('.alert-success').hide();
@@ -206,10 +298,12 @@
                     }
                 }
             });
-        });
- 
+           });
+                
         // Get single Catgory in EditModel
         $('.modelClose').on('click', function(){
+            $('#EditPostModalBody').html("");
+            $('#CreatePostModalBody').html("");
             $('#EditPostModal').hide();
         });
         var id;
@@ -221,9 +315,6 @@
             $.ajax({
                 url: "posts/"+id+"/edit",
                 method: 'GET',
-                // data: {
-                //     id: id,
-                // },
                 success: function(result) {
                     //console.log(result);
                     $('#EditPostModalBody').html(result.html);
@@ -235,38 +326,103 @@
         // Update Category Ajax request.
         $('#SubmitEditPostForm').click(function(e) {
             e.preventDefault();
+
+                $("#SubmitEditPostForm").html('Loading').prepend('<span id="loadingUpdate" class="spinner-border spinner-border-sm"></span>');
+                var title = $('#editTitle').val();
+                var slug = $('#editSlug').val();
+                var details= $('#editDetails').val();  
+                var summary= $('#editSummary').val();
+                var category_id = $('#editCategoryId').val();
+                var published = $('#editPublished').is(':checked')?1:0;
+                // var file = document.getElementById("image").files[0];
+                var file = $('#editImage').val(); // return name of image
+                // alert(file);
+                //  This is 2 code is working and return (Object file)
+                //1) document.getElementById("image").files[0]; / 2) $("#image").get(0).files[0];
+                var image = $("#editImage").get(0).files[0];
+                // alert(published);
+
+            var myformData  = new FormData();
+            // if (file.length > 0) {
+                myformData.append("_method", 'put');
+                myformData.append("title", title);
+                myformData.append("slug", slug);
+                myformData.append("details", details);
+                myformData.append("summary", summary);
+                myformData.append("category_id", category_id);
+                myformData.append("image", image);
+                myformData.append("published", published);
+            // };
+        
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                   
                 }
             });
             $.ajax({
                 url: "posts/"+id,
-                method: 'PUT',
-                data: {
-                    title: $('#editTitle').val(),
-                    details: $('#editDetails').val(),
-                    slug: $('#editSlug').val(),
-                    summary: $('#editSumary').val(),
-
-                },
+                method: 'POST',
+                // dataType: 'json',
+                // *** contentType: "multipart/form-data",// it used when data send to server
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: myformData , // it send form data to server
+                enctype: 'multipart/form-data',
+                // data:{
+                       
+                //         name: $('#editName').val(),
+                //         title: $('#editTitle').val(),
+                //         slug: $('#editSlug').val(),
+                //         details: $('#editDetails').val(),  
+                //         summary: $('#editSummary').val(),
+                //         category_id : $('#editCategoryId').val(),
+                //         image : $("#editImage").get(0).files[0],
+                //         published : $('#editPublished').is(':checked')?1:0,
+                //         // _token: @json(csrf_token()),
+                  
+                //     //  This is 2 code is working and return (Object file)
+                //     //1) document.getElementById("image").files[0]; / 2) $("#image").get(0).files[0];
+                        
+                //     },
                 success: function(result) {
+                    
+                    $("#SubmitEditPostForm").html('Update');
+                    $('#loadingUpdate').css('display','none');
                     if(result.errors) {
                         $('.alert-danger').html('');
+                        $("#SubmitEditPostForm").html('Update');
+                        $('#loadingUpdate').css('display','none');
                         $.each(result.errors, function(key, value) {
                             $('.alert-danger').show();
                             $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
                         });
                     } else {
+                        
                         $('.alert-danger').hide();
                         $('.alert-success').show();
+                        $('#scrollTop').scrollTop(0);
+                        // $('#scrollTop').animate({ scrollTop: 0 }, 'slow');
                         $('.datatable').DataTable().ajax.reload();
                         setTimeout(function(){ 
                             $('.alert-success').hide();
                             $('#EditPostModal').hide();
                         }, 2000);
                     }
-                }
+                },
+                error:function(xhr,status,error){
+                        $("#SubmitEditPostForm").html('Update');
+                        $('#loadingUpdate').css('display','none');
+                        console.log(xhr.responseJSON,status,error);
+
+                        $('.alert-danger').html('');
+                            $.each(error, function(key, value) {
+                                $('.alert-danger').show();
+                                // $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                $('.alert-danger').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                            });
+                    }
             });
         });
    // Delete Category Ajax request.

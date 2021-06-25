@@ -32,8 +32,15 @@ Route::get('/search', [HomeController::class, 'search']);
 
 Route::get('/autocomplete-search-query', [HomeController::class, 'query'])->name('autocomplete-search-query');
 Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autocomplete');
+
+//  *** Routes for Backend   ***  //
 // Resource Route for Cateory.
 Route::group(['middleware'=>'auth'],function(){
+
+    Route::resource('users', UserController::class);
+    // Route for get user for yajra post request.
+    Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
+    
     Route::resource('categories', CategoryController::class);
     // Route for get categories for yajra post request.
     Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
