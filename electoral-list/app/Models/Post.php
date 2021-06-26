@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Category ;
 
 class Post extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'title',
-        'summary',
-        'details',
         'slug',
+        'details',
+        'summary',
+        'category_id',
+        'published',
+        'image',  
     ];
     public function getData()
     {
@@ -38,6 +42,10 @@ class Post extends Model
     public function deleteData($id)
     {
         return static::find($id)->delete();
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 
 }
