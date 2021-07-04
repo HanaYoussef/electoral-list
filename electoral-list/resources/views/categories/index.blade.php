@@ -153,6 +153,8 @@
 
         $('#SubmitCreateCategoryForm').click(function(e) {
             e.preventDefault();
+            $("#SubmitCreateCategoryForm").html('create').prepend('<span id="spinners"  class="spinner-border spinner-border-sm"></span>');
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -176,6 +178,7 @@
                     } else {
                         $('.alert-danger').hide();
                         $('.alert-success').show();
+                        $('#spinners').css('display','none');
                         $('.datatable').DataTable().ajax.reload();
                         setInterval(function(){ 
                             $('.alert-success').hide();

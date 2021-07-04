@@ -5,94 +5,45 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+            @if($items->count())
+            @foreach($items as $item)
                 <article class="post-item">
                     <div class="post-item-image">
-                        <a href="post.html">
-                            <img src="{{asset('blog-frontend/img/Post_Image_1.jpg') }}" alt="">
+                        <!-- <a href="post.html"> -->
+                        <a href="#">
+                            <img src="{{asset('storage/images/'.$item->image)}}" alt="">
                         </a>
+                        <!-- </a> -->
                     </div>
                     <div class="post-item-body">
                         <div class="padding-10">
-                            <h2><a href="post.html">Lorem ipsum dolor sit amet, consectetur adipisicing elit</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos voluptas, blanditiis impedit repellat harum, eaque saepe aspernatur quo magnam obcaecati dolor! Deleniti quod repellendus non iste architecto, voluptate excepturi velit.</p>
+                            <h2><a href="">{{$item->title}}</a></h2>
+                            <p>{{$item->details}}</p>
+                            <p>{{$item->slug}}</p>
                         </div>
 
                         <div class="post-meta padding-10 clearfix">
                             <div class="pull-left">
                                 <ul class="post-meta-group">
                                     <li><i class="fa fa-user"></i><a href="#"> Admin</a></li>
-                                    <li><i class="fa fa-clock-o"></i><time> February 12, 2016</time></li>
-                                    <li><i class="fa fa-tags"></i><a href="#"> Blog</a></li>
+                                    <li><i class="fa fa-clock-o"></i><time> {{(new \DateTime($item->created_at))->format('Y.m.d')}}</time></li>
+                                    <li><i class="fa fa-tags"></i><a href="#"> {{$item->category->name}}</a></li>
                                     <li><i class="fa fa-comments"></i><a href="#">4 Comments</a></li>
                                 </ul>
                             </div>
                             <div class="pull-right">
-                                <a href="post.html">Continue Reading &raquo;</a>
+                               <a href="{{route('show-post',$item->slug)}}">Continue Reading &raquo;</a>
+                                <!-- <a href="{{route('show-post',[$item->slug,$item->id])}}">Continue Reading &raquo;</a> -->
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="post-item">
-                    <div class="post-item-image">
-                        <a href="post.html">
-                            <img src="{{asset('blog-frontend/img/Post_Image_2.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="padding-10">
-                            <h2><a href="post.html">Lorem ipsum dolor sit amet, consectetur adipisicing elit</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos voluptas, blanditiis impedit repellat harum, eaque saepe aspernatur quo magnam obcaecati dolor! Deleniti quod repellendus non iste architecto, voluptate excepturi velit.</p>
-                        </div>
+                @endforeach
 
-                        <div class="post-meta padding-10 clearfix">
-                            <div class="pull-left">
-                                <ul class="post-meta-group">
-                                    <li><i class="fa fa-user"></i><a href="#"> Admin</a></li>
-                                    <li><i class="fa fa-clock-o"></i><time> February 12, 2016</time></li>
-                                    <li><i class="fa fa-tags"></i><a href="#"> Blog</a></li>
-                                    <li><i class="fa fa-comments"></i><a href="#">4 Comments</a></li>
-                                </ul>
-                            </div>
-                            <div class="pull-right">
-                                <a href="post.html">Continue Reading &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="post-item">
-                    <div class="post-item-image">
-                        <a href="post.html">
-                            <img src="{{asset('blog-frontend/img/Post_Image_3.jpg') }}" alt="">
-                        </a>
-                    </div>
-                    <div class="post-item-body">
-                        <div class="padding-10">
-                            <h2><a href="post.html">Lorem ipsum dolor sit amet, consectetur adipisicing elit, consectetur adipisicing elit</a></h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos voluptas, blanditiis impedit repellat harum, eaque saepe aspernatur quo magnam obcaecati dolor! Deleniti quod repellendus non iste architecto, voluptate excepturi velit.</p>
-                        </div>
-
-                        <div class="post-meta padding-10 clearfix">
-                            <div class="pull-left">
-                                <ul class="post-meta-group">
-                                    <li><i class="fa fa-user"></i><a href="#"> Admin</a></li>
-                                    <li><i class="fa fa-clock-o"></i><time> February 12, 2016</time></li>
-                                    <li><i class="fa fa-tags"></i><a href="#"> Vue Js</a>, <a href="#"> Laravel</a></li>
-                                    <li><i class="fa fa-comments"></i><a href="#">4 Comments</a></li>
-                                </ul>
-                            </div>
-                            <div class="pull-right">
-                                <a href="post.html">Continue Reading &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <nav>
-                  <ul class="pager">
-                    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Newer</a></li>
-                    <li class="next"><a href="#">Older <span aria-hidden="true">&rarr;</span></a></li>
-                  </ul>
-                </nav>
+          {{$items->links('vendor.pagination.custom')}}
+            @else
+                <div class='alert alert-info mt-4'>There is no items to show</div>
+            @endif
             </div>
             <div class="col-md-4">
                 <aside class="right-sidebar">
@@ -130,45 +81,21 @@
                         </div>
                         <div class="widget-body">
                             <ul class="popular-posts">
+                            @foreach($posts as $popular)
                                 <li>
                                     <div class="post-image">
                                         <a href="#">
-                                            <img src="{{asset('blog-frontend/img/Post_Image_5_thumb.jpg ' ) }}" />
+                                        <img src="{{asset('storage/images/'.$popular->image)}}" alt="">
                                         </a>
                                     </div>
                                     <div class="post-body">
-                                        <h6><a href="#">Blog Post #5</a></h6>
+                                        <h6><a href="#">{{$popular->title}}</a></h6>
                                         <div class="post-meta">
                                             <span>36 minutes ago</span>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="post-image">
-                                        <a href="#">
-                                            <img src="{{asset('blog-frontend/img/Post_Image_4_thumb.jpg' ) }}" />
-                                        </a>
-                                    </div>
-                                    <div class="post-body">
-                                        <h6><a href="#">Blog Post #4</a></h6>
-                                        <div class="post-meta">
-                                            <span>36 minutes ago</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="post-image">
-                                        <a href="#">
-                                            <img src="{{asset('blog-frontend/img/Post_Image_3_thumb.jpg') }}" />
-                                        </a>
-                                    </div>
-                                    <div class="post-body">
-                                        <h6><a href="#">Blog Post #3</a></h6>
-                                        <div class="post-meta">
-                                            <span>36 minutes ago</span>
-                                        </div>
-                                    </div>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -221,8 +148,8 @@
                 var val = this.$menu.find('.active').data('value');
                 var getPost = "{{route('getPost',':val') }}";
                 getPost = getPost.replace(':val',val);
-                // console.log(getPost);
-               return $.get(getPost);
+                window.location.href=getPost;
+            //    return $.get(getPost);
             //    console.log(getPost);
                 // console.log(data.post);
                

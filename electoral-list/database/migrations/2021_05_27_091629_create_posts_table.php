@@ -24,6 +24,7 @@ class CreatePostsTable extends Migration
             $table->integer('category_id')->index()->nullable();
             $table->integer('comment_id')->index()->nullable();
             $table->softDeletes();
+            $table->integer('count')->nullable();
             $table->timestamps();
         });
     }

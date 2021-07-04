@@ -69,10 +69,10 @@
                         <label for="title">Title</label>
                         <input type="text" class="form-control" {{old("title")}}  name="title" id="title" >
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="title">Slug</label>
                         <input type="text" class="form-control" {{old("slug")}} name="slug" id="slug">
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="title">Details</label>
                         <input type="text" class="form-control" {{old("details")}} name="details" id="details">
@@ -234,7 +234,7 @@
 
                 $("#SubmitCreatePostForm").html('Loading').prepend('<span id="loadingCreate" class="spinner-border spinner-border-sm"></span>');
                 var title = $('#title').val();
-                var slug = $('#slug').val();
+                // var slug = $('#slug').val();
                 var details= $('#details').val();  
                 var summary= $('#summary').val();
                 var category_id = $('#category_id').val();
@@ -250,7 +250,7 @@
             var myformData  = new FormData();
             // if (file.length > 0) {
                 myformData.append("title", title);
-                myformData.append("slug", slug);
+                // myformData.append("slug", slug);
                 myformData.append("details", details);
                 myformData.append("summary", summary);
                 myformData.append("category_id", category_id);
@@ -329,7 +329,7 @@
 
                 $("#SubmitEditPostForm").html('Loading').prepend('<span id="loadingUpdate" class="spinner-border spinner-border-sm"></span>');
                 var title = $('#editTitle').val();
-                var slug = $('#editSlug').val();
+                // var slug = $('#editSlug').val();
                 var details= $('#editDetails').val();  
                 var summary= $('#editSummary').val();
                 var category_id = $('#editCategoryId').val();
@@ -346,7 +346,7 @@
             // if (file.length > 0) {
                 myformData.append("_method", 'put');
                 myformData.append("title", title);
-                myformData.append("slug", slug);
+                // myformData.append("slug", slug);
                 myformData.append("details", details);
                 myformData.append("summary", summary);
                 myformData.append("category_id", category_id);
@@ -386,6 +386,7 @@
                 //     //1) document.getElementById("image").files[0]; / 2) $("#image").get(0).files[0];
                         
                 //     },
+            
                 success: function(result) {
                     
                     $("#SubmitEditPostForm").html('Update');

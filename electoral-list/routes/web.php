@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\PermissionController;
 
 
 /*
@@ -22,21 +23,29 @@ use App\Http\Controllers\Front\HomeController;
 Route::get('/', function () {
     return view('welcome');
 });
-/*
-Route::get('/index', function () {
-    return view('frontEnd.index');
-});*/
+
+
 Route::get('/index', [HomeController::class, 'index']);
+Route::get('/layout', [HomeController::class, 'layout']);
 Route::get('/get-post/{title}', [HomeController::class, 'getPost'])->name('getPost');
-Route::get('/search', [HomeController::class, 'search']);
+// Route::get('/get-post/{slug}', [HomeController::class, 'getPost'])->name('getPost');
+// Route::get('/show-post/{slug}/{id}', [HomeController::class, 'showPost'])->name('show-post');
+ Route::get('/show-post/{slug}', [HomeController::class, 'showPost'])->name('show-post');
 
 Route::get('/autocomplete-search-query', [HomeController::class, 'query'])->name('autocomplete-search-query');
 Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autocomplete');
 
+
+
+
 //  *** Routes for Backend   ***  //
 // Resource Route for Cateory.
-Route::group(['middleware'=>'auth'],function(){
-
+Route::group(['middleware'=>['auth','permission']],function(){
+    Route::resource('role', PermissionController::class);
+    Route::post("role/{id}/postPermission",[PermissionController::class,"postPermission"])->name('role.postPermission');
+  Route::get('/home', function () {
+    return view('home');
+    })->name('home');
     Route::resource('users', UserController::class);
     // Route for get user for yajra post request.
     Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
@@ -50,17 +59,6 @@ Route::group(['middleware'=>'auth'],function(){
 });
 
 
-    
-Route::group(['middleware'=>'auth'],function(){
-    // Route::get("user/{id}/delete",[UserController::class,"destroy"])->name('user.delete');
-    // Route::resource("user",UserController::class);
-
-    // Resource Route for article.
-    Route::resource('users', UserController::class);
-    // Route for get articles for yajra post request.
-    Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
-    
-});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -68,9 +66,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 
 
-// Resource Route for Cateory.
-Route::group(['middleware'=>'auth'],function(){
-Route::resource('categories', CategoryController::class);
-// Route for get categories for yajra post request.
-Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
-});
+// // Resource Route for Cateory.
+// Route::group(['middleware'=>'auth'],function(){
+// Route::resource('categories', CategoryController::class);
+// // Route for get categories for yajra post request.
+// Route::get('get-categories', [CategoryController::class, 'getCategories'])->name('get-categories');
+// });

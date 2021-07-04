@@ -6,6 +6,7 @@ use App\Http\Requests\Post\EditRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Str;
 
 use App\Models\Post;
 
@@ -45,10 +46,20 @@ class PostController extends Controller
    
     public function store(Request $request)
     {
+         
+        $data= $request->all();
+    
+       // $slug1 = Str::slug($request->title, '-');
+        $slug1= Str::slug($request->title, '-');
+        $slug = Str::limit($slug1, 20, ' ');
+       // $slug=Str::substr($slug1,20);
+       
+        $data['slug'] = $slug ;
+        // dd($slug);
         $validator = \Validator::make($request->all(), [
             'title'=>'required|max:250|unique:posts',
             'summary'=>'required|max:300',
-            'slug'=>'required|unique:posts',
+            'slug'=>'max:90|unique:posts',
             'details'=>'required',
             // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
             'image'=>'image|required',
@@ -58,9 +69,7 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-        
-        $data= $request->all();
-
+       
         if($request->image){
             // $image = $request->file('image');      
             $filename=$request->image->store('public/images');
@@ -88,7 +97,7 @@ class PostController extends Controller
 
         $html=\View::make('post.editPost',[
             'title'=>$data->title , 
-            'slug'=>$data->slug,
+            // 'slug'=>$data->slug,
             'details'=>$data->details,
             'summary'=>$data->summary,
             'category_id'=>$data->category_id,
@@ -103,13 +112,14 @@ class PostController extends Controller
     {
         // dd($request->all());
         $post = Post::find($id);
+        
         if(!$post){
             response()->json(['status'=>false , 'msg'=>'invalid id']);
         }
-
+        
        $validator = \Validator::make($request->all(), [
             'title'=>'required|max:250'.$id,
-            'slug'=>'required|unique:posts,slug,'.$id,
+            // 'slug'=>'required|unique:posts,slug,'.$id,
             'details'=>'required',
             'summary'=>'required|max:300',
             // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
@@ -119,7 +129,12 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
+
         $data= $request->all();
+        $slug1= Str::slug($request->title, '-');
+        $slug = Str::limit($slug1, 15, ' ');
+        $data['slug'] = $slug ;
+
         // dd( $request->image == 'undefined');
         if( $request->image !='undefined' ){
             // $image = $request->file('image');      

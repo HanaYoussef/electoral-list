@@ -17,7 +17,8 @@ class Post extends Model
         'summary',
         'category_id',
         'published',
-        'image',  
+        'image', 
+        'count' 
     ];
     public function getData()
     {
@@ -47,5 +48,13 @@ class Post extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+    
+
 
 }
