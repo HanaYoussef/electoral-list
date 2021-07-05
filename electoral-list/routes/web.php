@@ -26,7 +26,6 @@ Route::get('/', function () {
 
 
 Route::get('/index', [HomeController::class, 'index']);
-Route::get('/layout', [HomeController::class, 'layout']);
 Route::get('/get-post/{title}', [HomeController::class, 'getPost'])->name('getPost');
 // Route::get('/get-post/{slug}', [HomeController::class, 'getPost'])->name('getPost');
 // Route::get('/show-post/{slug}/{id}', [HomeController::class, 'showPost'])->name('show-post');

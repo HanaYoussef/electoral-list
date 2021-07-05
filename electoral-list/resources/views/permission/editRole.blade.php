@@ -29,8 +29,9 @@
             <thead>
         <tr>
                 <th scope="col">#Name</th>
-                <th scope="col">Add</th>
-                <th scope="col">Edit</th>
+                <th scope="col">SHOW</th>
+                <th scope="col">ADD</th>
+                <th scope="col">EDIT</th>
             </tr>
             </thead>
             <tbody>

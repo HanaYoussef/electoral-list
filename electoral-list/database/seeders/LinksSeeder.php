@@ -29,8 +29,23 @@ class LinksSeeder extends Seeder
             'active'=>1,
             'order'=>1,            
         ]);
-      
-
+        
+        Link::create([
+            'title'=>'Post create',
+            'route'=>'posts.create',
+            'parent_id'=>$link->id,
+            'show_in_menu'=>0,
+            'active'=>1,
+            'order'=>1,            
+        ]);
+        Link::create([
+            'title'=>'Post edit',
+             'route'=>'posts.edit',
+             'parent_id'=>$link->id,
+             'show_in_menu'=>0,
+             'active'=>1,
+             'order'=>1,            
+         ]); 
         //users
         $link = Link::create([
             'title'=>'Users',
@@ -41,15 +56,29 @@ class LinksSeeder extends Seeder
             'order'=>1,            
         ]);
         Link::create([
-            'title'=>'User List',
+            'title'=>'Users List',
             'route'=>'users.index',
             'parent_id'=>$link->id,
             'show_in_menu'=>1,
             'active'=>1,
             'order'=>1,            
         ]);
-       
-
+        Link::create([
+            'title'=>'Users create',
+            'route'=>'users.create',
+            'parent_id'=>$link->id,
+            'show_in_menu'=>0,
+            'active'=>1,
+            'order'=>1,            
+        ]);
+        Link::create([
+            'title'=>'Users edit',
+             'route'=>'users.edit',
+             'parent_id'=>$link->id,
+             'show_in_menu'=>0,
+             'active'=>1,
+             'order'=>1,            
+         ]); 
          //Category
          $link = Link::create([
             'title'=>'Category',
@@ -75,6 +104,13 @@ class LinksSeeder extends Seeder
             'active'=>1,
             'order'=>1,            
         ]);
-       
+        Link::create([
+           'title'=>'Category edit',
+            'route'=>'categories.edit',
+            'parent_id'=>$link->id,
+            'show_in_menu'=>0,
+            'active'=>1,
+            'order'=>1,            
+        ]); 
     }
 }

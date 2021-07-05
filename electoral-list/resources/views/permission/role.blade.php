@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="table-responsive">
-  <table class="table table-hover table-primary border-info">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>

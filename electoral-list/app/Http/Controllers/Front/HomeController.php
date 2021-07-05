@@ -9,20 +9,18 @@ use App\Models\Post;
 class HomeController extends Controller
 {
 
-
-  public function layout()
-    {
-        $categories = Category::all();
-        //$items=Post::all();
-        // $items = Post::orderBy('id')->take(3)->get();
-        // $url = Storage::url('file.jpg');
-        $items = Post::orderBy('id')->paginate(3);
-        $posts = \DB::table('posts')
-                ->orderByRaw('count DESC')->take(3)->get();
-       
-        return view('layouts.frontLayout',compact('items','categories','posts'));
-    }
-
+      // public function layout()
+      // {
+      //     $categories = Category::all();
+      //     //$items=Post::all();
+      //     // $items = Post::orderBy('id')->take(3)->get();
+      //     // $url = Storage::url('file.jpg');
+      //     $items = Post::orderBy('id')->paginate(3);
+      //     $posts = \DB::table('posts')
+      //             ->orderByRaw('count DESC')->take(3)->get();
+        
+      //     return view('layouts.asideFront',compact('items','categories','posts'));
+      // }
     public function index()
     {
         $categories = Category::all();
@@ -32,8 +30,8 @@ class HomeController extends Controller
         $items = Post::orderBy('id')->paginate(3);
         $posts = \DB::table('posts')
                 ->orderByRaw('count DESC')->take(3)->get();
-       
-        return view('frontEnd.index',compact('items','categories','posts'));
+        // return view('frontEnd.index',compact('items'));
+         return view('frontEnd.index',compact('items','categories','posts'));
     }
 
     public function autocomplete(Request $request){
@@ -94,7 +92,11 @@ class HomeController extends Controller
   //  $data = $request->session()->all();
   //  dd($data); 
   // $request->session()->forget('key');
-   return view("frontEnd.post")->with('item',$item);
+   //return view("frontEnd.post")->with('item',$item);
+   $categories= Category::all();
+   $posts = \DB::table('posts')
+           ->orderByRaw('count DESC')->take(3)->get();
+   return view('frontEnd.post',compact('item','posts','categories'));
    
 
   }
@@ -102,9 +104,11 @@ class HomeController extends Controller
        {
         // $item = Post::where("slug",$slug)->first();
          $item = Post::where("title",$title)->first();
-          // dd($item);
-         return view('frontEnd.post',compact('item'));
-
+          $categories= Category::all();
+          $posts = \DB::table('posts')
+                  ->orderByRaw('count DESC')->take(3)->get();
+         return view('frontEnd.post',compact('item','posts','categories'));
+        //return view('layouts.asideFront',compact('item','posts','categories'));
        }
 
 }
