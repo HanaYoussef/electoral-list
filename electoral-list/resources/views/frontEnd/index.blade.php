@@ -67,7 +67,11 @@
                     </div>
                     <div class="post-item-body">
                         <div class="padding-10">
-                            <h2><a href="post.html">Lorem ipsum dolor sit amet, consectetur adipisicing elit, consectetur adipisicing elit</a></h2>
+                            <h2><a href="post.html">
+                                
+                                {{-- *** To print tags html as html code from DB --}}
+                                {{-- {!! !!} --}}
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, consectetur adipisicing elit</a></h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos voluptas, blanditiis impedit repellat harum, eaque saepe aspernatur quo magnam obcaecati dolor! Deleniti quod repellendus non iste architecto, voluptate excepturi velit.</p>
                         </div>
 
@@ -116,7 +120,7 @@
                                 @foreach($categories as $category)
                                 <li>
                                     <a href="#"><i  class="fa fa-angle-right"></i> {{ $category->name }}</a>
-                                    <span class="badge pull-right">10</span>
+                                    <span class="badge pull-right">{{ $category->publishedPost()->count()}}</span>
                                 </li>
                                 @endforeach
                                
@@ -222,7 +226,8 @@
                 var getPost = "{{route('getPost',':val') }}";
                 getPost = getPost.replace(':val',val);
                 // console.log(getPost);
-               return $.get(getPost);
+                window.location.href=getPost;
+            //    return $.get(getPost);
             //    console.log(getPost);
                 // console.log(data.post);
                

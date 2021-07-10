@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Post1Controller;
 use App\Http\Controllers\Front\HomeController;
 
 
@@ -28,10 +29,12 @@ Route::get('/index', function () {
 });*/
 Route::get('/index', [HomeController::class, 'index']);
 Route::get('/get-post/{title}', [HomeController::class, 'getPost'])->name('getPost');
-Route::get('/search', [HomeController::class, 'search']);
+// Route::get('/search', [HomeController::class, 'search']);
 
 Route::get('/autocomplete-search-query', [HomeController::class, 'query'])->name('autocomplete-search-query');
 Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autocomplete');
+
+Route::get('/getPosts/{category-name}',[HomeController::class,'']);
 
 //  *** Routes for Backend   ***  //
 // Resource Route for Cateory.
@@ -47,7 +50,13 @@ Route::group(['middleware'=>'auth'],function(){
     
     Route::resource('posts',PostController::class);
     Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
+
+    Route::resource('/posts1',Post1Controller::class);
+    Route::post('save-draft', [Post1Controller::class, 'saveDraft'])->name('saveDraft');
+   
 });
+
+
 
 
     

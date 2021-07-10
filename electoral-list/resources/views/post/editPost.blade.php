@@ -7,10 +7,6 @@
     <input type="text" class="form-control" name="title" id="editTitle" value="{{$title}}">
 </div>
 
-<div class="form-group">
-    <label for="name">slug:</label>
-    <input type="text" class="form-control" name="slug" id="editSlug" value="{{$slug}}">
-</div>
 
 <div class="form-group">
 <label for="name">details:</label>

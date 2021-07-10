@@ -16,6 +16,14 @@
                             <button class='btn btn-success'data-toggle="modal" data-target="#CreatePostModal"  >  Create new Post </button>
                             <!-- {{-- <a class="btn btn-success" href="javascript:void(0)" id="createNewUser"> Create New User</a> --}} -->
                         </div>
+                        
+                        <div class="alert alert-warning alert-dismissible fade show invalid-id" role="alert" style="display: none ; padding:7px ;">
+                            <br>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        
+                        </div>
                     
                     {{-- <br> --}}
                     </div>
@@ -24,11 +32,11 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th width="20%">Title</th>
-                                    <th width="20%">Slug</th>
+                                    <th style="width :20% !important">Title</th>
+                                    <th style="width :20% !important">Slug</th>
                                     <th>Category</th>
                                     <th>Status</th>
-                                    <th width="25%" class="text-center">Action</th>
+                                    <th style="width :40% !important;box-sizing: border-box !important;" class="text-center">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -52,7 +60,7 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none; padding:7px;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -69,10 +77,10 @@
                         <label for="title">Title</label>
                         <input type="text" class="form-control" {{old("title")}}  name="title" id="title" >
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="title">Slug</label>
                         <input type="text" class="form-control" {{old("slug")}} name="slug" id="slug">
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label for="title">Details</label>
                         <input type="text" class="form-control" {{old("details")}} name="details" id="details">
@@ -132,12 +140,12 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none; padding:7px;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="scrollTop" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                <div id="scrollTop" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;padding:7px;">
                     <strong>Success!</strong>Post was updated successfully.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -162,7 +170,7 @@
     </div>
 </div>
 
-<!-- Delete Category Modal -->
+<!-- Delete Post Modal -->
 <div class="modal" id="DeletePostModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -188,6 +196,7 @@
 @section('js')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         // init datatable.
@@ -200,12 +209,12 @@
             "order": [[ 0, "desc" ]],
             ajax: '{{ route('posts.index') }}',
             columns: [
-                {data: 'id', name: 'id'},
-                {data: 'title', name: 'title'},
-                {data: 'slug', name: 'slug'},
+                {data: 'id', name: 'id' },
+                {data: 'title', name: 'title',"width": "100px"},
+                {data: 'slug', name: 'slug',"width": "20%"},
                 {data: 'Category', name: 'Category',orderable:false,serachable:true,sClass:'text-center'},
                 {data: 'published', name: 'published', render:function(data,type,row,meta){return data?"Published":"Inpublished"}},
-                {data: 'Actions', name: 'Actions',orderable:false,serachable:false,sClass:'text-center'},
+                {data: 'Actions', name: 'Actions',orderable:false,serachable:false,sClass:'text-center',"width": "25%"},
             ]
         });
  
@@ -214,7 +223,7 @@
         var tmppath ;
         $('#image').change( function(event) {
              tmppath = URL.createObjectURL(event.target.files[0]);
-            //  var file = document.getElementById("image").files[0];
+             var file = document.getElementById("image").files[0];
             $("img").fadeIn("slow").attr('src',URL.createObjectURL(event.target.files[0]));
             
             // $("#disp_tmp_path").html(" <strong>["+tmppath+"**"+file.value +"]</strong>");
@@ -224,7 +233,7 @@
         $(document).on("change", "#editImage", function() {
             // alert("Files changed.");
             tmppath1 = URL.createObjectURL(event.target.files[0]);
-             var file = document.getElementById("image").files[0];
+             var file = document.getElementById("editImage").files[0];
             $("img").fadeIn("slow").attr('src',URL.createObjectURL(event.target.files[0]));
         });
 
@@ -234,7 +243,7 @@
 
                 $("#SubmitCreatePostForm").html('Loading').prepend('<span id="loadingCreate" class="spinner-border spinner-border-sm"></span>');
                 var title = $('#title').val();
-                var slug = $('#slug').val();
+                // var slug = $('#slug').val();
                 var details= $('#details').val();  
                 var summary= $('#summary').val();
                 var category_id = $('#category_id').val();
@@ -250,7 +259,7 @@
             var myformData  = new FormData();
             // if (file.length > 0) {
                 myformData.append("title", title);
-                myformData.append("slug", slug);
+                // myformData.append("slug", slug);
                 myformData.append("details", details);
                 myformData.append("summary", summary);
                 myformData.append("category_id", category_id);
@@ -274,9 +283,8 @@
                 data: myformData , // it send form data to server
                 enctype: 'multipart/form-data',
                 success: function(result) {
-                    $("#SubmitCreatePostForm").html('Update');
+                    $("#SubmitCreatePostForm").html('Create');
                     $('#loadingCreate').css('display','none');
-                   
                     if(result.errors) {
                         $('.alert-danger').html('');
                         $.each(result.errors, function(key, value) {
@@ -287,7 +295,7 @@
                         $('.alert-danger').hide();
                         $('.alert-success').show();
                         // $('#CreatePostModal')[0].reset();
-                        $('#CreatePostModal').scrollTop(0);
+                        $('.modal-body').scrollTop(0);
                         // $('#CreatePostModal').animate({ scrollTop: 0 }, 'slow');
                         $('.datatable').DataTable().ajax.reload();
                         setInterval(function(){ 
@@ -317,9 +325,24 @@
                 method: 'GET',
                 success: function(result) {
                     //console.log(result);
-                    $('#EditPostModalBody').html(result.html);
-                    $('#EditPostModal').show();
-                }
+                    if(result.error) {
+                        $('.invalid-id').html('');
+                        $('.invalid-id').show();
+                        $('.invalid-id').append('<strong><li>'+result.error+'</li></strong>');
+                        swal("Error!", result.error , "error");
+                    }else{
+                        $('#EditPostModalBody').html(result.html);
+                        $('#EditPostModal').show();
+                    }
+                   
+                },
+                error:function(xhr,status,error){
+                        console.log(xhr.responseJSON,status,error);
+                        $('.invalid-id').html('');
+                        $('.invalid-id').show();
+                        $('.invalid-id').append('<strong><li>'+xhr.responseJSON.responseText+'</li></strong>');
+                        swal("Error!", xhr.responseJSON.responseText , "error");
+                    }
             });
         });
  
@@ -329,7 +352,7 @@
 
                 $("#SubmitEditPostForm").html('Loading').prepend('<span id="loadingUpdate" class="spinner-border spinner-border-sm"></span>');
                 var title = $('#editTitle').val();
-                var slug = $('#editSlug').val();
+                // var slug = $('#editSlug').val();
                 var details= $('#editDetails').val();  
                 var summary= $('#editSummary').val();
                 var category_id = $('#editCategoryId').val();
@@ -346,7 +369,7 @@
             // if (file.length > 0) {
                 myformData.append("_method", 'put');
                 myformData.append("title", title);
-                myformData.append("slug", slug);
+                // myformData.append("slug", slug);
                 myformData.append("details", details);
                 myformData.append("summary", summary);
                 myformData.append("category_id", category_id);
@@ -402,7 +425,7 @@
                         
                         $('.alert-danger').hide();
                         $('.alert-success').show();
-                        $('#scrollTop').scrollTop(0);
+                        $('.modal-body').scrollTop(0);
                         // $('#scrollTop').animate({ scrollTop: 0 }, 'slow');
                         $('.datatable').DataTable().ajax.reload();
                         setTimeout(function(){ 

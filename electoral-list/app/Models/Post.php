@@ -18,34 +18,15 @@ class Post extends Model
         'category_id',
         'published',
         'image',  
+        'published_at',
     ];
-    public function getData()
-    {
-        return static::orderBy('created_at','desc')->get();
-    }
- 
-    public function storeData($input)
-    {
-        return static::create($input);
-    }
- 
-    public function findData($id)
-    {
-        return static::find($id);
-    }
- 
-    public function updateData($id, $input)
-    {
-        return static::find($id)->update($input);
-    }
- 
-    public function deleteData($id)
-    {
-        return static::find($id)->delete();
-    }
-
+  
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class,'post_tag','post_id','tag_id');
     }
 
 }

@@ -6,6 +6,9 @@ use App\Http\Requests\Post\EditRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str ;
+// use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Models\Post;
 
@@ -34,9 +37,9 @@ class PostController extends Controller
                 return $post->category->name;
                 })
             ->addColumn('Actions', function($data) {
-                return '<button type="button" class="btn btn-success btn-sm" id="getEditPostData" data-id="'.$data->id.'">Edit</button>
+                return '<button type="button"  class="btn btn-success btn-sm" id="getEditPostData" data-id="'.$data->id.'">Edit</button>
 
-                    <button type="button" data-id="'.$data->id.'" data-toggle="modal" data-target="#DeletePostModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                    <button type="button"   data-id="'.$data->id.'" data-toggle="modal" data-target="#DeletePostModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
             })
             ->rawColumns(['Actions'])
             ->make(true);
@@ -46,9 +49,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'title'=>'required|max:250|unique:posts',
+            'title'=>'required|min:10|max:30|unique:posts',
             'summary'=>'required|max:300',
-            'slug'=>'required|unique:posts',
+            // 'slug'=>'required|unique:posts',
             'details'=>'required',
             // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
             'image'=>'image|required',
@@ -58,16 +61,18 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-        
         $data= $request->all();
-
-        if($request->image){
+        if( $request->image !='undefined' ){
             // $image = $request->file('image');      
             $filename=$request->image->store('public/images');
             $imagename= $request->image->hashName();
             $data['image'] = $imagename;
         }
-       
+        // *** generate slug from title  *** //
+        $slug1 = Str::slug($request->title,'-');
+        $slug = Str::limit($slug1,15,' ');
+        $data['slug']=$slug;
+
         Post::create($data);
         return response()->json(['success'=>'post added successfully']);
     }
@@ -80,15 +85,15 @@ class PostController extends Controller
     public function edit($id)
     {
        $categories = Category::all();
-        $data = Post::find($id);
-
-        if(!$data){
-            response()->json(['status'=>false , 'msg'=>'invalid id']);
+        try {
+            $data = Post::findOrFail($id);
+        }catch (ModelNotFoundException $exception) {
+            return  response()->json(['error'=>$exception->getMessage()]);
         }
 
         $html=\View::make('post.editPost',[
             'title'=>$data->title , 
-            'slug'=>$data->slug,
+            // 'slug'=>$data->slug,
             'details'=>$data->details,
             'summary'=>$data->summary,
             'category_id'=>$data->category_id,
@@ -108,14 +113,15 @@ class PostController extends Controller
         }
 
        $validator = \Validator::make($request->all(), [
-            'title'=>'required|max:250'.$id,
-            'slug'=>'required|unique:posts,slug,'.$id,
+            'title'=>'required|min:10|max:30|unique:posts,title,'.$id,
+            // 'slug'=>'required|unique:posts,slug,'.$id,
             'details'=>'required',
             'summary'=>'required|max:300',
             // 'image'=>'image|mimes:jpg,gif,png|max:2048|dimensions:max_width=2000,max_height=1200',
             // 'image'=>'image',
             'category_id'=>'required', 
         ]);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
@@ -129,7 +135,10 @@ class PostController extends Controller
         }else{
             $data['image']  =$post->image ; 
         }
-    //   dd($data);
+        $slug1 = Str::slug($request->title,'-');
+        $slug = Str::limit($slug1,15,' ');
+        $data['slug']=$slug;
+
         $post->update($data);
        return response()->json(['success'=>'Post updated successfully']);
     }
@@ -140,7 +149,7 @@ class PostController extends Controller
         if(!$post){
             return response()->json('msg','Invalid Post ID');
         }
-        $post->delete($id);
+        $post->delete();
  
         return response()->json(['success'=>'Post deleted successfully']);
     }

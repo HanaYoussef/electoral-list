@@ -43,13 +43,17 @@
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('vuexy/assets/css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- END: Custom CSS-->
+
     <!-- {{--  ** for ajax **  --}} -->
     {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- {{--  ** for ajax **  --}} -->
+    <!-- {{--  ** End for ajax **  --}} -->
+
+    
     @yield('css')
 
 
@@ -279,6 +283,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle"><circle cx="12" cy="12" r="10"></circle></svg><span class="menu-title text-truncate" data-i18n="Posts">Another Posts</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('posts1.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                            <li><a class="d-flex align-items-center" href="{{route('posts1.create')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Create</span></a>
+                            {{-- <li><a class="d-flex align-items-center" href="{{route('posts1.edit')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Edit</span></a> --}}
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -331,6 +343,8 @@
     <!-- <script src="{{asset('vuexy/app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script> -->
     <!-- END: Page JS-->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" ></script>
+    
     <script>
         $(window).on('load', function() {
             if (feather) {
