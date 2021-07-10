@@ -132,7 +132,7 @@
                             
                                 <i class="mr-50" data-feather="power"></i> Logout
                             </a>
-                            <form>
+                        </form>
                         <div>
                       </div>
                 </li>

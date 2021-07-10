@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use DB;
@@ -30,7 +31,8 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrap();
 
-        $cat=DB::table('categories')->get();
+        // $cat=DB::table('categories')->get();
+        $cat=Category::get();
         /*$postPupular = \DB::table('posts')
                         ->orderByRaw('count DESC')->take(3)->get();*/
      $postPopular = Post::orderByRaw('count DESC')->take(3)->get();
