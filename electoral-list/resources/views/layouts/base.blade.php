@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/vendors/css/extensions/toastr.min.css') }}">
     <!-- END: Vendor CSS-->
 
+   
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('vuexy/app-assets/css/bootstrap-extended.css') }}">
@@ -106,7 +107,7 @@
                     </ul>
                 </li>
                
-             <li id="dropdown-user1" class="nav-item dropdown dropdown-user show">
+             <li id="dropdown-user1" class="nav-item dropdown dropdown-user ">
                   <a class="nav-link dropdown-toggle dropdown-user-link " id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{ auth()->user()->name }}</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="{{asset('vuexy/app-assets/images/portrait/small/avatar-s-11.jpg ' ) }}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
                   </a>
@@ -359,6 +360,9 @@
 
     <!-- BEGIN: Theme JS-->
     
+    <!-- BEGIN: Page Vendor JS-->
+
+    <!-- END: Page Vendor JS-->
     <!-- <script src="{{asset('vuexy/app-assets/js/scripts/components/components-dropdowns.js')}}"></script> -->
     <!-- <script src="{{asset('vuexy/app-assets/js/scripts/components/components-dropdowns.min.js')}}"></script> -->
     <script src="{{asset('vuexy/app-assets/js/core/app-menu.js')}}"></script>
@@ -383,7 +387,12 @@
             }
         // document.getElementById("dropdown-user1").classList.add("show"); 
         
-        })
+        }) ;
+        $('document').ready(function(){
+            $('#dropdown-user1').click(function(){
+                $('#dropdown-user1').toggleClass('show');
+            });
+        });
     </script>
     
     @yield('js')

@@ -21,7 +21,9 @@ class Post extends Model
         'published_at',
         'count' 
     ];
-  
+   
+    // protected guarded =[];
+
     public function category(){
         return $this->belongsTo(Category::class);
     }
@@ -32,6 +34,13 @@ class Post extends Model
 
 
     
+    protected $appends = ['image'];
+
+     public function getImageAttribute($image)
+        { 
+         return asset('storage/images/' . $image);
+        // return asset('storage/images/' . $this->image);
+        }
 
 
 }

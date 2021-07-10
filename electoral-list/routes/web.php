@@ -9,7 +9,7 @@ use App\Http\Controllers\Post1Controller;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\PermissionController;
 
-
+use App\Http\Controllers\ChartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +44,8 @@ Route::group(['middleware'=>['auth','permission']],function(){
   Route::get('/home', function () {
     return view('home');
     })->name('home');
+    
+
     Route::resource('users', UserController::class);
     // Route for get user for yajra datatable post request.
     Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
@@ -58,25 +60,9 @@ Route::group(['middleware'=>['auth','permission']],function(){
     Route::resource('/posts1',Post1Controller::class);
     Route::post('save-draft', [Post1Controller::class, 'saveDraft'])->name('saveDraft');
    
+    Route::get('/numUser', [ChartController::class, 'numUser'])->name('numUser');
 });
 
-
-<<<<<<< HEAD
-
-
-    
-Route::group(['middleware'=>'auth'],function(){
-    // Route::get("user/{id}/delete",[UserController::class,"destroy"])->name('user.delete');
-    // Route::resource("user",UserController::class);
-
-    // Resource Route for article.
-    Route::resource('users', UserController::class);
-    // Route for get articles for yajra post request.
-    Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
-    
-});
-=======
->>>>>>> 3ab55fb7727243af140cfc589912e77ee5563fb5
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
