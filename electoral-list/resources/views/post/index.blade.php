@@ -81,6 +81,7 @@
                         <label for="title">Slug</label>
                         <input type="text" class="form-control" {{old("slug")}} name="slug" id="slug">
                     </div> --}}
+                 
                     <div class="form-group">
                         <label for="title">Details</label>
                         <input type="text" class="form-control" {{old("details")}} name="details" id="details">
@@ -409,6 +410,7 @@
                 //     //1) document.getElementById("image").files[0]; / 2) $("#image").get(0).files[0];
                         
                 //     },
+            
                 success: function(result) {
                     
                     $("#SubmitEditPostForm").html('Update');

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str ;
 // use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+
 use App\Models\Post;
 
 class PostController extends Controller
@@ -48,6 +49,16 @@ class PostController extends Controller
    
     public function store(Request $request)
     {
+         
+        $data= $request->all();
+    
+       // $slug1 = Str::slug($request->title, '-');
+        $slug1= Str::slug($request->title, '-');
+        $slug = Str::limit($slug1, 20, ' ');
+       // $slug=Str::substr($slug1,20);
+       
+        $data['slug'] = $slug ;
+        // dd($slug);
         $validator = \Validator::make($request->all(), [
             'title'=>'required|min:10|max:30|unique:posts',
             'summary'=>'required|max:300',
@@ -108,10 +119,11 @@ class PostController extends Controller
     {
         // dd($request->all());
         $post = Post::find($id);
+        
         if(!$post){
             response()->json(['status'=>false , 'msg'=>'invalid id']);
         }
-
+        
        $validator = \Validator::make($request->all(), [
             'title'=>'required|min:10|max:30|unique:posts,title,'.$id,
             // 'slug'=>'required|unique:posts,slug,'.$id,
@@ -125,7 +137,12 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
+
         $data= $request->all();
+        $slug1= Str::slug($request->title, '-');
+        $slug = Str::limit($slug1, 15, ' ');
+        $data['slug'] = $slug ;
+
         // dd( $request->image == 'undefined');
         if( $request->image !='undefined' ){
             // $image = $request->file('image');      
