@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-
+use DB;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Post;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,5 +29,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+
+        $cat=DB::table('categories')->get();
+        /*$postPupular = \DB::table('posts')
+                        ->orderByRaw('count DESC')->take(3)->get();*/
+     $postPopular = Post::orderByRaw('count DESC')->take(3)->get();
+        View::share(['cat'=>$cat ,
+                    'postPopular'=> $postPopular]);  
     }
 }

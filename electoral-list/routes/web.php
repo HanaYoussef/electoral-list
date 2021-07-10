@@ -8,7 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\PermissionController;
 
-
+use App\Http\Controllers\ChartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,9 +30,10 @@ Route::get('/get-post/{title}', [HomeController::class, 'getPost'])->name('getPo
 // Route::get('/get-post/{slug}', [HomeController::class, 'getPost'])->name('getPost');
 // Route::get('/show-post/{slug}/{id}', [HomeController::class, 'showPost'])->name('show-post');
  Route::get('/show-post/{slug}', [HomeController::class, 'showPost'])->name('show-post');
-
+ Route::get('/category/{id}', [HomeController::class, 'category'])->name('category');
 Route::get('/autocomplete-search-query', [HomeController::class, 'query'])->name('autocomplete-search-query');
 Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autocomplete');
+
 
 
 
@@ -45,6 +46,8 @@ Route::group(['middleware'=>['auth','permission']],function(){
   Route::get('/home', function () {
     return view('home');
     })->name('home');
+    
+
     Route::resource('users', UserController::class);
     // Route for get user for yajra post request.
     Route::get('get-users', [UserController::class, 'getUsers'])->name('get-users');
@@ -55,6 +58,8 @@ Route::group(['middleware'=>['auth','permission']],function(){
     
     Route::resource('posts',PostController::class);
     Route::get('get-posts', [PostController::class, 'getPosts'])->name('getPosts');
+
+    Route::get('/numUser', [ChartController::class, 'numUser'])->name('numUser');
 });
 
 

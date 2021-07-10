@@ -50,11 +50,11 @@ class PostController extends Controller
         $data= $request->all();
     
        // $slug1 = Str::slug($request->title, '-');
-        $slug1= Str::slug($request->title, '-');
-        $slug = Str::limit($slug1, 20, ' ');
+        $slug= Str::slug($request->title, '-');
+        //$slug = Str::limit($slug1, 20, ' ');
        // $slug=Str::substr($slug1,20);
        
-        $data['slug'] = $slug ;
+        $data['slug'] = $slug;
         // dd($slug);
         $validator = \Validator::make($request->all(), [
             'title'=>'required|max:250|unique:posts',

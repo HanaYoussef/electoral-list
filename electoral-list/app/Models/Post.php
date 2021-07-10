@@ -20,41 +20,22 @@ class Post extends Model
         'image', 
         'count' 
     ];
-    public function getData()
-    {
-        return static::orderBy('created_at','desc')->get();
-    }
- 
-    public function storeData($input)
-    {
-        return static::create($input);
-    }
- 
-    public function findData($id)
-    {
-        return static::find($id);
-    }
- 
-    public function updateData($id, $input)
-    {
-        return static::find($id)->update($input);
-    }
- 
-    public function deleteData($id)
-    {
-        return static::find($id)->delete();
-    }
+   
+    // protected guarded =[];
 
     public function category(){
         return $this->belongsTo(Category::class);
     }
 
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
     
+    protected $appends = ['image'];
+
+     public function getImageAttribute($image)
+        { 
+         return asset('storage/images/' . $image);
+        // return asset('storage/images/' . $this->image);
+        }
 
 
 }
