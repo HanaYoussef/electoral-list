@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
             $table->string('image');
             $table->longText('details');
             $table->boolean('published')->index()->nullable();
+            
             $table->integer('category_id')->index()->nullable();
             $table->integer('comment_id')->index()->nullable();
             $table->softDeletes();

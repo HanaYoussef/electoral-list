@@ -174,7 +174,8 @@
                             <p id="disp_tmp_path"></p>
                             <div style="width:100%">
                                 {{-- <img  src="{{asset('blog-frontend/img/default-avatar.jpg')}}" class="center"> --}}
-                                <img  src="{{asset('storage/images/'.$post->image)}}" class="center">
+                                {{-- <img  src="{{asset('storage/images/'.$post->image)}}" class="center"> --}}
+                                <img  src="{{$post->image}}" class="center">
                             </div>
                             <input type="file" class="form-control" name="image" id="editImage">    
                             

@@ -58,8 +58,6 @@ class HomeController extends Controller
   }
      public function getPost($title)
        {
-
-
         $item = Post::where("title",$title)->first();
          return view('frontEnd.post',compact('item'));
         

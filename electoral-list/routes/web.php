@@ -38,7 +38,7 @@ Route::get('autocomplete', [HomeController::class, 'autocomplete'])->name('autoc
 
 //  *** Routes for Backend   ***  //
 // Resource Route for Category.
-Route::group(['middleware'=>['auth','permission']],function(){
+Route::group(['middleware'=>['auth','permission'],'prefix'=>'admin'],function(){
     Route::resource('role', PermissionController::class);
     Route::post("role/{id}/postPermission",[PermissionController::class,"postPermission"])->name('role.postPermission');
   Route::get('/home', function () {

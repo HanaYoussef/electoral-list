@@ -24,7 +24,7 @@ class LinkPermission
         if($link){
             $hasUserLink = $user->links()->where('links.id', $link->id)->count();
              if(!$hasUserLink){
-                return redirect(route('home'))->with('msg','you  Are Authorization');
+                return redirect(route('home'))->with('msg','you  Are UnAuthorization');
             }
         }
         return $next($request);
