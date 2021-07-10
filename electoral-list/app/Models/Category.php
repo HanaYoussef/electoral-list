@@ -25,10 +25,10 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function publishedPost(){
-        // return $this->hasMany(Post::class)->where('published',1)->where('category_id',$category_id);
-        return $this->countPublishedPost();
-    }
+    // public function publishedPost(){
+    //     // return $this->hasMany(Post::class)->where('published',1)->where('category_id',$category_id);
+    //     return $this->countPublishedPost();
+    // }
 
     public function scopePublishedPost(){
         // return $this->hasMany(Post::class)->where('published',1)->where('category_id',$category_id);

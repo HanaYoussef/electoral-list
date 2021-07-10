@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Post;
+use App\Models\Category;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -30,7 +31,8 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrap();
 
-        $cat=DB::table('categories')->get();
+        //$cat=DB::table('categories')->get();
+        $cat=Category::all();
         /*$postPupular = \DB::table('posts')
                         ->orderByRaw('count DESC')->take(3)->get();*/
      $postPopular = Post::orderByRaw('count DESC')->take(3)->get();

@@ -59,6 +59,7 @@
                         <div class="widget-body">
                             <ul class="categories">
                                 @foreach($cat as $category)
+                                
                                 <li>
                                     <a href="{{route('category',$category->id)}}"><i  class="fa fa-angle-right"></i> {{ $category->name }}</a>
                                     <span class="badge pull-right">{{ $category->publishedPost()->count()}}</span>

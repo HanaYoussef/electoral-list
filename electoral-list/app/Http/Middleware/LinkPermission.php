@@ -17,6 +17,7 @@ class LinkPermission
      */
     public function handle(Request $request, Closure $next)
     { 
+        // dd('dddd');
         $user = auth()->user();
         $routeName = request()->route()->getName();
         $link = Link::where('route', $routeName)->first();

@@ -58,9 +58,10 @@ class HomeController extends Controller
   }
      public function getPost($title)
        {
-          $posts = \DB::table('posts')
-                  ->orderByRaw('count DESC')->take(3)->get();
-         return view('frontEnd.post',compact('posts'));
+
+
+        $item = Post::where("title",$title)->first();
+         return view('frontEnd.post',compact('item'));
         
        }
 
