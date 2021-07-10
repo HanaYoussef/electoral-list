@@ -61,7 +61,7 @@
                                 @foreach($cat as $category)
                                 <li>
                                     <a href="{{route('category',$category->id)}}"><i  class="fa fa-angle-right"></i> {{ $category->name }}</a>
-                                    <span class="badge pull-right">10</span>
+                                    <span class="badge pull-right">{{ $category->publishedPost()->count()}}</span>
                                 </li>
                                 @endforeach
                                
